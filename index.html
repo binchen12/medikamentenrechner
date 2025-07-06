@@ -50,7 +50,7 @@
     .knd { background-color: #fff3cd; }
     .rtw { background-color: #f8d7da; }
 
-    #output, #info-box {
+    #info-box {
       margin-top: 2em;
       padding: 1em;
       border-radius: 8px;
@@ -60,6 +60,15 @@
     .info-nnd { background-color: #cce5ff; }
     .info-knd { background-color: #fff3cd; }
     .info-rtw { background-color: #f8d7da; }
+
+    #output {
+      margin-top: 2em;
+      padding: 1.5em;
+      background-color: #d4edda;
+      border-radius: 10px;
+      font-size: 1.3em;
+      line-height: 2.2em;
+    }
 
     @media (max-width: 600px) {
       .vehicle-container {
@@ -200,6 +209,10 @@
       }
     }
 
+    function formatNum(num) {
+      return num % 1 === 0 ? num.toFixed(0) : num.toFixed(2);
+    }
+
     function berechne() {
       const konzentration = parseFloat(document.getElementById('konzentration').value);
       const gewicht = parseFloat(document.getElementById('gewicht').value);
@@ -221,9 +234,8 @@
       const volumen = dosis / konzentration;
 
       document.getElementById('output').innerHTML = `
-        <strong>Ergebnis:</strong><br>
-        Gesamtdosis: <strong>${dosis.toFixed(3)} mg</strong><br>
-        Volumen der Lösung: <strong>${volumen.toFixed(2)} ml</strong>
+        💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
+        💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
       `;
     }
   </script>
