@@ -55,6 +55,7 @@
       padding: 1em;
       background-color: #e0f7fa;
       border-radius: 8px;
+      line-height: 1.6em;
     }
 
     @media (max-width: 600px) {
@@ -110,32 +111,32 @@
 
     const daten = {
       nnd: {
-        adenosin: { konzentration: 1, dosierung: 0.1, ampulle: "6 mg / 2 ml", zubereitung: "+ 4 ml NaCl" },
-        adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
-        amiodaron: { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "pur" },
-        ampicillin: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
-        atropin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
-        calciumglukonat: { konzentration: 50, dosierung: 50, ampulle: "1 g / 10 ml", zubereitung: "+ 10 ml Glukose 5 %" },
-        cefotaxim: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
-        esketamin: { konzentration: 1, dosierung: 1, ampulle: "25 mg / 5 ml", zubereitung: "2 ml + 8 ml NaCl" },
-        glucose40: { konzentration: 200, dosierung: 400, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" },
-        levetiracetam: { konzentration: 30, dosierung: 30, ampulle: "500 mg / 5 ml", zubereitung: "3 ml + 7 ml NaCl" },
-        midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
-        naloxon: { konzentration: 0.1, dosierung: 0.01, ampulle: "0.4 mg / 1 ml", zubereitung: "+ 3 ml NaCl" },
-        natriumbicarbonat: { konzentration: 0.5, dosierung: 1, ampulle: "8.4 % / 20 ml", zubereitung: "+ 20 ml Aqua" },
-        phenobarbital: { konzentration: 20, dosierung: 20, ampulle: "200 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
-        propofol: { konzentration: 10, dosierung: 2, ampulle: "500 mg / 50 ml", zubereitung: "pur" },
-        rocuronium: { konzentration: 10, dosierung: 1, ampulle: "100 mg / 10 ml", zubereitung: "pur" },
-        surfactant: { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
-        vitamink: { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
+        Adenosin: { konzentration: 1, dosierung: 0.1, ampulle: "6 mg / 2 ml", zubereitung: "+ 4 ml NaCl" },
+        Adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
+        Amiodaron: { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "pur" },
+        Ampicillin: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
+        Atropin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
+        Calciumglukonat: { konzentration: 50, dosierung: 50, ampulle: "1 g / 10 ml", zubereitung: "+ 10 ml Glukose 5 %" },
+        Cefotaxim: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
+        Esketamin: { konzentration: 1, dosierung: 1, ampulle: "25 mg / 5 ml", zubereitung: "2 ml + 8 ml NaCl" },
+        Glucose 40: { konzentration: 200, dosierung: 400, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" },
+        Levetiracetam: { konzentration: 30, dosierung: 30, ampulle: "500 mg / 5 ml", zubereitung: "3 ml + 7 ml NaCl" },
+        Midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
+        Naloxon: { konzentration: 0.1, dosierung: 0.01, ampulle: "0.4 mg / 1 ml", zubereitung: "+ 3 ml NaCl" },
+        Natriumbicarbonat: { konzentration: 0.5, dosierung: 1, ampulle: "8.4 % / 20 ml", zubereitung: "+ 20 ml Aqua" },
+        Phenobarbital: { konzentration: 20, dosierung: 20, ampulle: "200 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
+        Propofol: { konzentration: 10, dosierung: 2, ampulle: "500 mg / 50 ml", zubereitung: "pur" },
+        Rocuronium: { konzentration: 10, dosierung: 1, ampulle: "100 mg / 10 ml", zubereitung: "pur" },
+        Surfactant: { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
+        Vitamin K: { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
       },
       knd: {
-        fentanyl: { konzentration: 50, dosierung: 0.002 },
-        esketamin: { konzentration: 25, dosierung: 2 }
+        Fentanyl: { konzentration: 50, dosierung: 0.002 },
+        Esketamin: { konzentration: 25, dosierung: 2 }
       },
       rtw: {
-        adrenalin: { konzentration: 1, dosierung: 0.01 },
-        midazolam: { konzentration: 5, dosierung: 0.1 }
+        Adrenalin: { konzentration: 1, dosierung: 0.01 },
+        Midazolam: { konzentration: 5, dosierung: 0.1 }
       }
     };
 
@@ -182,14 +183,13 @@
         const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis.toFixed(2)} mg/kg`;
         document.getElementById('dosierung').value = dosisText;
 
-        // Zusatzinfo anzeigen
-        infoBox.innerHTML = `
-          <strong>${medikament.toUpperCase()}</strong><br>
-          Ampulle: ${eintrag.ampulle || '-'}<br>
-          Zubereitung: ${eintrag.zubereitung || '-'}<br>
-          Konzentration: ${eintrag.konzentration} mg/ml<br>
-          Dosierung: ${dosisText}
-        `;
+        if (fahrzeug === 'nnd') {
+          infoBox.innerHTML = `
+            <strong>${medikament}</strong><br>
+            💉 <strong>Ampulle:</strong> ${eintrag.ampulle || '-'}<br>
+            🧪 <strong>Verdünnung:</strong> ${eintrag.zubereitung || '-'}
+          `;
+        }
       }
     }
 
