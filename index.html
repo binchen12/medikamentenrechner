@@ -200,10 +200,26 @@ const daten = {
 
 function setFahrzeug(typ) {
   fahrzeug = typ;
-  ['nnd', 'knd', 'rtw', 'manuell'].forEach(id => {
-    const btn = document.getElementById('btn-' + id);
-    if (btn) btn.classList.toggle('active', id === typ);
-  });
+  const buttons = document.querySelectorAll('.vehicle-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById('btn-' + typ);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  const medSelect = document.getElementById("medikamentenwahl");
+  const infoBox = document.getElementById("info-box");
+  const einheit = document.getElementById("einheit-auswahl");
+
+  if (typ === 'manuell') {
+    medSelect.style.display = 'none';
+    infoBox.innerHTML = '';
+    infoBox.className = '';
+    einheit.style.display = 'block';
+  } else {
+    medSelect.style.display = 'block';
+    einheit.style.display = 'none';
+    aktualisiereMedikamente();
+  }
+});
 
   const medSelect = document.getElementById("medikamentenwahl");
   const infoBox = document.getElementById("info-box");
