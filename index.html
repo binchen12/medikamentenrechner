@@ -14,19 +14,16 @@
       background-color: #f4f6f8;
       color: #333;
     }
-
     h2 {
       text-align: center;
       margin-bottom: 1.5em;
       color: #2c3e50;
     }
-
     label {
       display: block;
       margin-top: 1em;
       font-weight: 600;
     }
-
     input, select, button.vehicle-btn {
       width: 100%;
       padding: 0.9em;
@@ -36,14 +33,12 @@
       border: 1px solid #ccc;
       box-sizing: border-box;
     }
-
     .vehicle-container {
       display: flex;
       justify-content: space-between;
       gap: 0.6em;
       margin-bottom: 1.2em;
     }
-
     .vehicle-btn {
       flex: 1;
       padding: 1em;
@@ -55,17 +50,14 @@
       opacity: 0.7;
       transition: all 0.2s ease-in-out;
     }
-
     .vehicle-btn.active {
       opacity: 1;
       transform: scale(1.03);
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-
     .nnd { background-color: #e0f0ff; color: #005a9c; }
     .knd { background-color: #fff8dc; color: #9c6c00; }
     .rtw { background-color: #ffe4e1; color: #c0392b; }
-
     #info-box {
       margin-top: 2em;
       padding: 1.2em;
@@ -74,11 +66,9 @@
       text-align: center;
       font-weight: 500;
     }
-
     .info-nnd { background-color: #e0f0ff; }
     .info-knd { background-color: #fff8dc; }
     .info-rtw { background-color: #ffe4e1; }
-
     #output {
       margin-top: 2em;
       padding: 1.5em;
@@ -90,7 +80,6 @@
       color: #155724;
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
-
     .calculate-btn {
       margin-top: 1.8em;
       font-size: 1.2em;
@@ -104,11 +93,9 @@
       font-weight: bold;
       transition: background-color 0.2s ease;
     }
-
     .calculate-btn:hover {
       background-color: #218838;
     }
-
     .footer {
       margin-top: 4em;
       font-size: 0.9em;
@@ -116,7 +103,6 @@
       text-align: center;
       line-height: 1.6em;
     }
-
     @media (max-width: 600px) {
       .vehicle-container {
         flex-direction: column;
@@ -163,5 +149,74 @@
     Die Verantwortung für die Anwendung liegt stets beim Anwender.
   </div>
 
+<script>
+let fahrzeug = null;
+const daten = {
+  nnd: {
+    Adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
+    Midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
+    "Glucose 40": { konzentration: 200, dosierung: 0.5, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" }
+  },
+  knd: {
+    Fentanyl: { konzentration: 50, dosierung: 0.002 },
+    Esketamin: { konzentration: 25, dosierung: 2 }
+  },
+  rtw: {
+    Adrenalin: { konzentration: 1, dosierung: 0.01 },
+    Midazolam: { konzentration: 5, dosierung: 0.1 }
+  }
+};
+function setFahrzeug(typ) {
+  fahrzeug = typ;
+  ['nnd', 'knd', 'rtw'].forEach(id => {
+    const btn = document.getElementById('btn-' + id);
+    btn.classList.toggle('active', id === typ);
+  });
+  aktualisiereMedikamente();
+}
+function aktualisiereMedikamente() {
+  const select = document.getElementById("medikament");
+  const infoBox = document.getElementById("info-box");
+  select.innerHTML = '<option value="">-- Medikament wählen --</option>';
+  infoBox.innerHTML = "";
+  infoBox.className = "";
+  if (!fahrzeug || !daten[fahrzeug]) return;
+  Object.keys(daten[fahrzeug]).forEach(med => {
+    const opt = document.createElement("option");
+    opt.value = med;
+    opt.textContent = med;
+    select.appendChild(opt);
+  });
+}
+function vordefinieren() {
+  const med = document.getElementById("medikament").value;
+  const infoBox = document.getElementById("info-box");
+  infoBox.innerHTML = "";
+  infoBox.className = fahrzeug ? "info-" + fahrzeug : "";
+  if (!fahrzeug || !daten[fahrzeug][med]) return;
+  const d = daten[fahrzeug][med];
+  document.getElementById("konzentration").value = d.konzentration;
+  document.getElementById("dosierung").value = d.dosierung < 0.01 ? `${(d.dosierung * 1000).toFixed(1)} µg/kg` : `${d.dosierung % 1 === 0 ? d.dosierung.toFixed(0) : d.dosierung.toFixed(2)} mg/kg`;
+  if (d.ampulle || d.zubereitung) {
+    infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
+  }
+}
+function formatNum(n) {
+  return n % 1 === 0 ? n.toFixed(0) : n.toFixed(2);
+}
+function berechne() {
+  const k = parseFloat(document.getElementById("konzentration").value);
+  const g = parseFloat(document.getElementById("gewicht").value);
+  let dStr = document.getElementById("dosierung").value;
+  let d = dStr.includes("µg") ? parseFloat(dStr) / 1000 : parseFloat(dStr);
+  if (isNaN(k) || isNaN(g) || isNaN(d)) {
+    document.getElementById("output").innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
+    return;
+  }
+  const dose = d * g;
+  const vol = dose / k;
+  document.getElementById("output").innerHTML = `💊 <strong>Dosis:</strong> ${formatNum(dose)} mg<br>💧 <strong>Volumen:</strong> ${formatNum(vol)} ml`;
+}
+</script>
 </body>
 </html>
