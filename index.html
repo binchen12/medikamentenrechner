@@ -150,73 +150,7 @@
   </div>
 
 <script>
-let fahrzeug = null;
-const daten = {
-  nnd: {
-    Adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
-    Midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
-    "Glucose 40": { konzentration: 200, dosierung: 0.5, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" }
-  },
-  knd: {
-    Fentanyl: { konzentration: 50, dosierung: 0.002 },
-    Esketamin: { konzentration: 25, dosierung: 2 }
-  },
-  rtw: {
-    Adrenalin: { konzentration: 1, dosierung: 0.01 },
-    Midazolam: { konzentration: 5, dosierung: 0.1 }
-  }
-};
-function setFahrzeug(typ) {
-  fahrzeug = typ;
-  ['nnd', 'knd', 'rtw'].forEach(id => {
-    const btn = document.getElementById('btn-' + id);
-    btn.classList.toggle('active', id === typ);
-  });
-  aktualisiereMedikamente();
-}
-function aktualisiereMedikamente() {
-  const select = document.getElementById("medikament");
-  const infoBox = document.getElementById("info-box");
-  select.innerHTML = '<option value="">-- Medikament wählen --</option>';
-  infoBox.innerHTML = "";
-  infoBox.className = "";
-  if (!fahrzeug || !daten[fahrzeug]) return;
-  Object.keys(daten[fahrzeug]).forEach(med => {
-    const opt = document.createElement("option");
-    opt.value = med;
-    opt.textContent = med;
-    select.appendChild(opt);
-  });
-}
-function vordefinieren() {
-  const med = document.getElementById("medikament").value;
-  const infoBox = document.getElementById("info-box");
-  infoBox.innerHTML = "";
-  infoBox.className = fahrzeug ? "info-" + fahrzeug : "";
-  if (!fahrzeug || !daten[fahrzeug][med]) return;
-  const d = daten[fahrzeug][med];
-  document.getElementById("konzentration").value = d.konzentration;
-  document.getElementById("dosierung").value = d.dosierung < 0.01 ? `${(d.dosierung * 1000).toFixed(1)} µg/kg` : `${d.dosierung % 1 === 0 ? d.dosierung.toFixed(0) : d.dosierung.toFixed(2)} mg/kg`;
-  if (d.ampulle || d.zubereitung) {
-    infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
-  }
-}
-function formatNum(n) {
-  return n % 1 === 0 ? n.toFixed(0) : n.toFixed(2);
-}
-function berechne() {
-  const k = parseFloat(document.getElementById("konzentration").value);
-  const g = parseFloat(document.getElementById("gewicht").value);
-  let dStr = document.getElementById("dosierung").value;
-  let d = dStr.includes("µg") ? parseFloat(dStr) / 1000 : parseFloat(dStr);
-  if (isNaN(k) || isNaN(g) || isNaN(d)) {
-    document.getElementById("output").innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
-    return;
-  }
-  const dose = d * g;
-  const vol = dose / k;
-  document.getElementById("output").innerHTML = `💊 <strong>Dosis:</strong> ${formatNum(dose)} mg<br>💧 <strong>Volumen:</strong> ${formatNum(vol)} ml`;
-}
+// vollständiger Medikamenten-Datensatz folgt im nächsten Schritt
 </script>
 </body>
 </html>
