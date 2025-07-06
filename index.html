@@ -105,8 +105,12 @@
       text-align: center;
       line-height: 1.6em;
     }
-    #einheit-auswahl {
-      margin-top: 0.3em;
+    .inline-select {
+      display: flex;
+      gap: 0.6em;
+    }
+    .inline-select > div {
+      flex: 1;
     }
   </style>
 </head>
@@ -132,14 +136,18 @@
   <label>Konzentration (mg/ml):</label>
   <input type="number" id="konzentration" step="0.01" required>
 
-  <label>Dosierung:</label>
-  <input type="text" id="dosierung" required>
-  <div id="einheit-auswahl" style="display: none;">
-    <label>Einheit:</label>
-    <select id="einheit">
-      <option value="mg">mg/kg</option>
-      <option value="ug">µg/kg</option>
-    </select>
+  <div class="inline-select">
+    <div>
+      <label>Dosierung:</label>
+      <input type="number" id="dosierung" step="0.001" required>
+    </div>
+    <div id="einheit-auswahl" style="display: none;">
+      <label>Einheit:</label>
+      <select id="einheit">
+        <option value="mg">mg/kg</option>
+        <option value="ug">µg/kg</option>
+      </select>
+    </div>
   </div>
 
   <label>Gewicht des Patienten (kg):</label>
@@ -203,7 +211,7 @@ function vordefinieren() {
   if (!fahrzeug || !daten[fahrzeug][med]) return;
   const d = daten[fahrzeug][med];
   document.getElementById("konzentration").value = d.konzentration;
-  document.getElementById("dosierung").value = d.dosierung < 0.01 ? `${(d.dosierung * 1000).toFixed(1)} µg/kg` : `${d.dosierung % 1 === 0 ? d.dosierung.toFixed(0) : d.dosierung.toFixed(2)} mg/kg`;
+  document.getElementById("dosierung").value = d.dosierung;
   if (d.ampulle || d.zubereitung) {
     infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
   }
@@ -216,23 +224,15 @@ function formatNum(n) {
 function berechne() {
   const konzentration = parseFloat(document.getElementById("konzentration").value);
   const gewicht = parseFloat(document.getElementById("gewicht").value);
-  const dosierungText = document.getElementById("dosierung").value;
+  const dosierung = parseFloat(document.getElementById("dosierung").value);
   const einheit = document.getElementById("einheit")?.value || 'mg';
 
-  if (isNaN(konzentration) || isNaN(gewicht)) {
+  if (isNaN(konzentration) || isNaN(gewicht) || isNaN(dosierung)) {
     document.getElementById("output").innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
     return;
   }
 
-  let dosierung = parseFloat(dosierungText.replace(/[^\d\.]/g, ""));
-  if (einheit === "ug") dosierung = dosierung / 1000;
-
-  if (isNaN(dosierung)) {
-    document.getElementById("output").innerHTML = "❗ Ungültige Dosierung.";
-    return;
-  }
-
-  const dosis = dosierung * gewicht;
+  const dosis = (einheit === 'ug' ? dosierung / 1000 : dosierung) * gewicht;
   const volumen = dosis / konzentration;
 
   document.getElementById("output").innerHTML = `
@@ -244,23 +244,7 @@ function berechne() {
 const daten = {
   nnd: {
     Adenosin: { konzentration: 1, dosierung: 0.1, ampulle: "6 mg / 2 ml", zubereitung: "+ 4 ml NaCl" },
-    Adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
-    Amiodaron: { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "pur" },
-    Ampicillin: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
-    Atropin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
-    Calciumglukonat: { konzentration: 50, dosierung: 50, ampulle: "1 g / 10 ml", zubereitung: "+ 10 ml Glukose 5 %" },
-    Cefotaxim: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
-    Esketamin: { konzentration: 1, dosierung: 1, ampulle: "25 mg / 5 ml", zubereitung: "2 ml + 8 ml NaCl" },
-    "Glucose 40": { konzentration: 200, dosierung: 400, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" },
-    Levetiracetam: { konzentration: 30, dosierung: 30, ampulle: "500 mg / 5 ml", zubereitung: "3 ml + 7 ml NaCl" },
-    Midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
-    Naloxon: { konzentration: 0.1, dosierung: 0.01, ampulle: "0.4 mg / 1 ml", zubereitung: "+ 3 ml NaCl" },
-    Natriumbicarbonat: { konzentration: 0.5, dosierung: 1, ampulle: "8.4 % / 20 ml", zubereitung: "+ 20 ml Aqua" },
-    Phenobarbital: { konzentration: 20, dosierung: 20, ampulle: "200 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
-    Propofol: { konzentration: 10, dosierung: 2, ampulle: "500 mg / 50 ml", zubereitung: "pur" },
-    Rocuronium: { konzentration: 10, dosierung: 1, ampulle: "100 mg / 10 ml", zubereitung: "pur" },
-    Surfactant: { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
-    "Vitamin K": { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
+    Adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" }
   },
   knd: {
     Fentanyl: { konzentration: 50, dosierung: 0.002 },
