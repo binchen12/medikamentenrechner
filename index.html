@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: sans-serif;
-      max-width: 500px;
+      max-width: 600px;
       margin: 2em auto;
       padding: 1em;
       background-color: #f9f9f9;
@@ -17,17 +17,25 @@
       display: block;
       margin-top: 1em;
     }
-    input {
+    input, select, button.vehicle-btn {
       width: 100%;
       padding: 0.5em;
       margin-top: 0.3em;
     }
-    button {
-      margin-top: 1.5em;
+    .vehicle-btn {
+      margin: 0.3em;
       padding: 0.7em;
-      width: 100%;
-      font-size: 1em;
+      width: 30%;
+      border: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
     }
+    .nnd { background-color: #cce5ff; }
+    .knd { background-color: #fff3cd; }
+    .rtw { background-color: #f8d7da; }
+
     #output {
       margin-top: 2em;
       padding: 1em;
@@ -40,14 +48,27 @@
 
   <h2>🧮 Medikamenten-Rechner</h2>
 
+  <div style="display: flex; justify-content: space-between;">
+    <button class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">NND</button>
+    <button class="vehicle-btn knd" onclick="setFahrzeug('knd')">KND</button>
+    <button class="vehicle-btn rtw" onclick="setFahrzeug('rtw')">RTW</button>
+  </div>
+
   <label>
-    Konzentration des Medikaments (mg/ml):
+    Medikament:
+    <select id="medikament" onchange="vordefinieren()">
+      <option value="">-- Bitte Fahrzeugtyp wählen --</option>
+    </select>
+  </label>
+
+  <label>
+    Konzentration (mg/ml):
     <input type="number" id="konzentration" step="0.01" required>
   </label>
 
   <label>
-    Dosierung (mg pro kg Körpergewicht):
-    <input type="number" id="dosierung" step="0.01" required>
+    Dosierung:
+    <input type="text" id="dosierung" required>
   </label>
 
   <label>
@@ -60,22 +81,77 @@
   <div id="output"></div>
 
   <script>
+    let fahrzeug = null;
+
+    const daten = {
+      nnd: {
+        adrenalin: { konzentration: 0.1, dosierung: 0.01 },
+        caffeine: { konzentration: 10, dosierung: 10 }
+      },
+      knd: {
+        fentanyl: { konzentration: 50, dosierung: 0.002 },
+        esketamin: { konzentration: 25, dosierung: 2 }
+      },
+      rtw: {
+        adrenalin: { konzentration: 1, dosierung: 0.01 },
+        midazolam: { konzentration: 5, dosierung: 0.1 }
+      }
+    };
+
+    function setFahrzeug(typ) {
+      fahrzeug = typ;
+      aktualisiereMedikamente();
+    }
+
+    function aktualisiereMedikamente() {
+      const medikamentSelect = document.getElementById('medikament');
+      medikamentSelect.innerHTML = '<option value="">-- Medikament wählen --</option>';
+
+      if (fahrzeug && daten[fahrzeug]) {
+        const medikamente = Object.keys(daten[fahrzeug]);
+        medikamente.forEach(medikament => {
+          const option = document.createElement('option');
+          option.value = medikament;
+          option.text = medikament;
+          medikamentSelect.appendChild(option);
+        });
+      }
+    }
+
+    function vordefinieren() {
+      const medikament = document.getElementById('medikament').value;
+      if (fahrzeug && medikament && daten[fahrzeug][medikament]) {
+        const eintrag = daten[fahrzeug][medikament];
+        document.getElementById('konzentration').value = eintrag.konzentration;
+        const dosis = eintrag.dosierung;
+        const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis.toFixed(2)} mg/kg`;
+        document.getElementById('dosierung').value = dosisText;
+      }
+    }
+
     function berechne() {
       const konzentration = parseFloat(document.getElementById('konzentration').value);
-      const dosierung = parseFloat(document.getElementById('dosierung').value);
       const gewicht = parseFloat(document.getElementById('gewicht').value);
+      let dosierungWert = document.getElementById('dosierung').value.trim();
+
+      let dosierung;
+      if (dosierungWert.includes('µg')) {
+        dosierung = parseFloat(dosierungWert) / 1000;
+      } else {
+        dosierung = parseFloat(dosierungWert);
+      }
 
       if (isNaN(konzentration) || isNaN(dosierung) || isNaN(gewicht)) {
         document.getElementById('output').innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
         return;
       }
 
-      const dosis = dosierung * gewicht; // mg
-      const volumen = dosis / konzentration; // ml
+      const dosis = dosierung * gewicht;
+      const volumen = dosis / konzentration;
 
       document.getElementById('output').innerHTML = `
         <strong>Ergebnis:</strong><br>
-        Gesamtdosis: <strong>${dosis.toFixed(2)} mg</strong><br>
+        Gesamtdosis: <strong>${dosis.toFixed(3)} mg</strong><br>
         Volumen der Lösung: <strong>${volumen.toFixed(2)} ml</strong>
       `;
     }
