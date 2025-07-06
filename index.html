@@ -17,7 +17,7 @@
       display: block;
       margin-top: 1em;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 0.5em;
       margin-top: 0.3em;
@@ -41,12 +41,21 @@
   <h2>🧮 Medikamenten-Rechner</h2>
 
   <label>
-    Konzentration des Medikaments (mg/ml):
+    Medikament wählen:
+    <select id="medikament" onchange="vordefinieren()">
+      <option value="">-- Bitte wählen --</option>
+      <option value="fentanyl">Fentanyl</option>
+      <option value="esketamin">Esketamin</option>
+    </select>
+  </label>
+
+  <label>
+    Konzentration (mg/ml):
     <input type="number" id="konzentration" step="0.01" required>
   </label>
 
   <label>
-    Dosierung (mg/kg Körpergewicht):
+    Dosierung (mg/kg):
     <input type="number" id="dosierung" step="0.01" required>
   </label>
 
@@ -60,6 +69,25 @@
   <div id="output"></div>
 
   <script>
+    const daten = {
+      fentanyl: {
+        konzentration: 0.05, // 50 µg/ml in mg
+        dosierung: 0.0015 // 1.5 µg/kg = 0.0015 mg/kg
+      },
+      esketamin: {
+        konzentration: 5, // 5 mg/ml
+        dosierung: 0.5 // 0.5 mg/kg
+      }
+    };
+
+    function vordefinieren() {
+      const auswahl = document.getElementById('medikament').value;
+      if (daten[auswahl]) {
+        document.getElementById('konzentration').value = daten[auswahl].konzentration;
+        document.getElementById('dosierung').value = daten[auswahl].dosierung;
+      }
+    }
+
     function berechne() {
       const konzentration = parseFloat(document.getElementById('konzentration').value);
       const dosierung = parseFloat(document.getElementById('dosierung').value);
@@ -70,12 +98,12 @@
         return;
       }
 
-      const dosis = dosierung * gewicht; // mg
-      const volumen = dosis / konzentration; // ml
+      const dosis = dosierung * gewicht;
+      const volumen = dosis / konzentration;
 
       document.getElementById('output').innerHTML = `
         <strong>Ergebnis:</strong><br>
-        Gesamtdosis: <strong>${dosis.toFixed(2)} mg</strong><br>
+        Gesamtdosis: <strong>${dosis.toFixed(3)} mg</strong><br>
         Volumen der Lösung: <strong>${volumen.toFixed(2)} ml</strong>
       `;
     }
