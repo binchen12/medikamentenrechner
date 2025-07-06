@@ -14,12 +14,17 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+    h2 {
+      text-align: center;
+    }
     label {
       display: block;
       margin-top: 1em;
     }
     input, select, button.vehicle-btn {
       width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
       padding: 0.8em;
       margin-top: 0.3em;
       font-size: 1.1em;
@@ -55,6 +60,7 @@
       padding: 1em;
       border-radius: 8px;
       line-height: 2.0em;
+      text-align: center;
     }
 
     .info-nnd { background-color: #cce5ff; }
@@ -68,6 +74,23 @@
       border-radius: 10px;
       font-size: 1.3em;
       line-height: 2.2em;
+      text-align: center;
+    }
+
+    .calculate-btn {
+      margin-top: 1.5em;
+      font-size: 1.3em;
+      padding: 1em;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .calculate-btn:hover {
+      background-color: #45a049;
     }
 
     @media (max-width: 600px) {
@@ -114,7 +137,7 @@
     <input type="number" id="gewicht" step="0.1" required>
   </label>
 
-  <button onclick="berechne()">💊 Berechnen</button>
+  <button class="calculate-btn" onclick="berechne()">💊 Berechnen</button>
 
   <div id="output"></div>
 
