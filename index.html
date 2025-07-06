@@ -50,7 +50,7 @@
     .knd { background-color: #fff3cd; }
     .rtw { background-color: #f8d7da; }
 
-    #output {
+    #output, #info-box {
       margin-top: 2em;
       padding: 1em;
       background-color: #e0f7fa;
@@ -84,6 +84,8 @@
     </select>
   </label>
 
+  <div id="info-box"></div>
+
   <label>
     Konzentration (mg/ml):
     <input type="number" id="konzentration" step="0.01" required>
@@ -108,8 +110,24 @@
 
     const daten = {
       nnd: {
-        adrenalin: { konzentration: 0.1, dosierung: 0.01 },
-        caffeine: { konzentration: 10, dosierung: 10 }
+        adenosin: { konzentration: 1, dosierung: 0.1, ampulle: "6 mg / 2 ml", zubereitung: "+ 4 ml NaCl" },
+        adrenalin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
+        amiodaron: { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "pur" },
+        ampicillin: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
+        atropin: { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
+        calciumglukonat: { konzentration: 50, dosierung: 50, ampulle: "1 g / 10 ml", zubereitung: "+ 10 ml Glukose 5 %" },
+        cefotaxim: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
+        esketamin: { konzentration: 1, dosierung: 1, ampulle: "25 mg / 5 ml", zubereitung: "2 ml + 8 ml NaCl" },
+        glucose40: { konzentration: 200, dosierung: 400, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" },
+        levetiracetam: { konzentration: 30, dosierung: 30, ampulle: "500 mg / 5 ml", zubereitung: "3 ml + 7 ml NaCl" },
+        midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
+        naloxon: { konzentration: 0.1, dosierung: 0.01, ampulle: "0.4 mg / 1 ml", zubereitung: "+ 3 ml NaCl" },
+        natriumbicarbonat: { konzentration: 0.5, dosierung: 1, ampulle: "8.4 % / 20 ml", zubereitung: "+ 20 ml Aqua" },
+        phenobarbital: { konzentration: 20, dosierung: 20, ampulle: "200 mg / 1 ml", zubereitung: "+ 9 ml NaCl" },
+        propofol: { konzentration: 10, dosierung: 2, ampulle: "500 mg / 50 ml", zubereitung: "pur" },
+        rocuronium: { konzentration: 10, dosierung: 1, ampulle: "100 mg / 10 ml", zubereitung: "pur" },
+        surfactant: { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
+        vitamink: { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
       },
       knd: {
         fentanyl: { konzentration: 50, dosierung: 0.002 },
@@ -125,7 +143,6 @@
       fahrzeug = typ;
       aktualisiereMedikamente();
 
-      // Button-Hervorhebung
       ['nnd', 'knd', 'rtw'].forEach(id => {
         const btn = document.getElementById('btn-' + id);
         if (id === typ) {
@@ -138,7 +155,9 @@
 
     function aktualisiereMedikamente() {
       const medikamentSelect = document.getElementById('medikament');
+      const infoBox = document.getElementById('info-box');
       medikamentSelect.innerHTML = '<option value="">-- Medikament wählen --</option>';
+      infoBox.innerHTML = '';
 
       if (fahrzeug && daten[fahrzeug]) {
         const medikamente = Object.keys(daten[fahrzeug]);
@@ -153,12 +172,24 @@
 
     function vordefinieren() {
       const medikament = document.getElementById('medikament').value;
+      const infoBox = document.getElementById('info-box');
+      infoBox.innerHTML = '';
+
       if (fahrzeug && medikament && daten[fahrzeug][medikament]) {
         const eintrag = daten[fahrzeug][medikament];
         document.getElementById('konzentration').value = eintrag.konzentration;
         const dosis = eintrag.dosierung;
         const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis.toFixed(2)} mg/kg`;
         document.getElementById('dosierung').value = dosisText;
+
+        // Zusatzinfo anzeigen
+        infoBox.innerHTML = `
+          <strong>${medikament.toUpperCase()}</strong><br>
+          Ampulle: ${eintrag.ampulle || '-'}<br>
+          Zubereitung: ${eintrag.zubereitung || '-'}<br>
+          Konzentration: ${eintrag.konzentration} mg/ml<br>
+          Dosierung: ${dosisText}
+        `;
       }
     }
 
