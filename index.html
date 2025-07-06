@@ -2,10 +2,84 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Testseite</title>
+  <title>Medikamenten-Rechner</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 1em;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+    }
+    input {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.3em;
+    }
+    button {
+      margin-top: 1.5em;
+      padding: 0.7em;
+      width: 100%;
+      font-size: 1em;
+    }
+    #output {
+      margin-top: 2em;
+      padding: 1em;
+      background-color: #e0f7fa;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 <body>
-  <h1>✅ Netlify funktioniert!</h1>
-  <p>Wenn du das hier siehst, ist alles korrekt eingerichtet.</p>
+
+  <h2>🧮 Medikamenten-Rechner</h2>
+
+  <label>
+    Konzentration des Medikaments (mg/ml):
+    <input type="number" id="konzentration" step="0.01" required>
+  </label>
+
+  <label>
+    Dosierung (mg pro kg Körpergewicht):
+    <input type="number" id="dosierung" step="0.01" required>
+  </label>
+
+  <label>
+    Gewicht des Patienten (kg):
+    <input type="number" id="gewicht" step="0.1" required>
+  </label>
+
+  <button onclick="berechne()">💊 Berechnen</button>
+
+  <div id="output"></div>
+
+  <script>
+    function berechne() {
+      const konzentration = parseFloat(document.getElementById('konzentration').value);
+      const dosierung = parseFloat(document.getElementById('dosierung').value);
+      const gewicht = parseFloat(document.getElementById('gewicht').value);
+
+      if (isNaN(konzentration) || isNaN(dosierung) || isNaN(gewicht)) {
+        document.getElementById('output').innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
+        return;
+      }
+
+      const dosis = dosierung * gewicht; // mg
+      const volumen = dosis / konzentration; // ml
+
+      document.getElementById('output').innerHTML = `
+        <strong>Ergebnis:</strong><br>
+        Gesamtdosis: <strong>${dosis.toFixed(2)} mg</strong><br>
+        Volumen der Lösung: <strong>${volumen.toFixed(2)} ml</strong>
+      `;
+    }
+  </script>
+
 </body>
 </html>
