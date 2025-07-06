@@ -95,47 +95,54 @@
       kind: {
         cpr: {
           adrenalin: { konzentration: 0.1, dosierung: 0.01 },
-          amiodaron: { konzentration: 50, dosierung: 5 },     
+          amiodaron: { konzentration: 50, dosierung: 5 },
+          "adrenalin-perfusor": { konzentration: 0.02, dosierung: 0.0001 }
         },
         anaphylaxie: {
-          "adrenalin i.m.": { konzentration: 1, dosierung: 0.01 },
+          "adrenalin-im": { konzentration: 1, dosierung: 0.01 },
           dimetinden: { konzentration: 1, dosierung: 0.1 },
           prednisolon: { konzentration: 50, dosierung: 2 }
         },
         analgosedierung: {
-          "esketamin i.n.": { konzentration: 25, dosierung: 2 },
-          "fentanyl i.n.": { konzentration: 50, dosierung: 0.002 },
-          "midazolam i.n.": { konzentration: 5, dosierung: 0.2 },
-          "esketamin i.v.": { konzentration: 5, dosierung: 0.5 },
-          "fentanyl i.v.": { konzentration: 50, dosierung: 0.001 },
+          "esketamin-in": { konzentration: 25, dosierung: 2 },
+          "fentanyl-in": { konzentration: 50, dosierung: 0.002 },
+          "midazolam-in": { konzentration: 5, dosierung: 0.2 },
+          "esketamin-iv": { konzentration: 5, dosierung: 0.5 },
+          "fentanyl-iv": { konzentration: 50, dosierung: 0.001 },
           piritramid: { konzentration: 1, dosierung: 0.1 },
-          "midazolam i.v.": { konzentration: 1, dosierung: 0.1 }
+          "midazolam-iv": { konzentration: 1, dosierung: 0.1 }
         },
         krampfanfall: {
-          "midazolam i.n.": { konzentration: 5, dosierung: 0.3 },
-          "midazolam i.v.": { konzentration: 1, dosierung: 0.1 },
+          "midazolam-in": { konzentration: 5, dosierung: 0.3 },
+          "midazolam-iv": { konzentration: 1, dosierung: 0.1 },
           levetiracetam: { konzentration: 50, dosierung: 40 },
           lorazepam: { konzentration: 1, dosierung: 0.1 }
         },
         narkose: {
-          "esketamin i.v.": { konzentration: 25, dosierung: 2 },
+          "esketamin-iv": { konzentration: 25, dosierung: 2 },
           rocuronium: { konzentration: 10, dosierung: 1 },
-          "fentanyl i.v.": { konzentration: 50, dosierung: 0.003 },
+          "fentanyl-iv": { konzentration: 50, dosierung: 0.003 },
           propofol: { konzentration: 10, dosierung: 4 },
-          "midazolam i.v.": { konzentration: 1, dosierung: 0.2 },
+          "midazolam-iv": { konzentration: 1, dosierung: 0.2 },
+          "propofol-perfusor": { konzentration: 10, dosierung: 6 }
+        },
+        atemnot: {
+          "adrenalin-inh": { konzentration: 1, dosierung: 1 },
+          salbutamol: { konzentration: 0.5, dosierung: 0.0005 },
+          dexamethason: { konzentration: 0.4, dosierung: 0.15 }
         },
         sonstiges: {
           ceftriaxon: { konzentration: 50, dosierung: 100 },
           glucose: { konzentration: 200, dosierung: 200 },
-          adenosin: { konzentration: 2, dosierung: 0.2 },
+          adenosin: { konzentration: 3, dosierung: 0.2 },
           tranexamsaeure: { konzentration: 100, dosierung: 15 }
         },
         bradykardie: {}
       },
       erwachsener: {
         analgosedierung: {
-          fentanyl i.v.: { konzentration: 0.05, dosierung: 0.001 },
-          esketamin i.v.: { konzentration: 25, dosierung: 0.25 }
+          fentanyl: { konzentration: 0.05, dosierung: 0.001 },
+          esketamin: { konzentration: 5, dosierung: 0.25 }
         },
         narkose: {},
         cpr: {},
@@ -159,7 +166,7 @@
         medikamente.forEach(medikament => {
           const option = document.createElement('option');
           option.value = medikament;
-          option.text = medikament.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          option.text = medikament;
           medikamentSelect.appendChild(option);
         });
       }
