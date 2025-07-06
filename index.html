@@ -2,12 +2,13 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Medikamenten-Rechner</title>
   <style>
     body {
       font-family: sans-serif;
       max-width: 600px;
-      margin: 2em auto;
+      margin: 1em auto;
       padding: 1em;
       background-color: #f9f9f9;
       border-radius: 10px;
@@ -19,18 +20,31 @@
     }
     input, select, button.vehicle-btn {
       width: 100%;
-      padding: 0.5em;
+      padding: 0.8em;
       margin-top: 0.3em;
+      font-size: 1.1em;
+    }
+    .vehicle-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5em;
+      margin-bottom: 1em;
     }
     .vehicle-btn {
-      margin: 0.3em;
-      padding: 0.7em;
-      width: 30%;
+      flex: 1;
+      padding: 1em;
       border: none;
-      color: black;
+      border-radius: 10px;
       font-weight: bold;
       cursor: pointer;
-      border-radius: 8px;
+      font-size: 1.2em;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+    }
+    .vehicle-btn.active {
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transform: scale(1.05);
     }
     .nnd { background-color: #cce5ff; }
     .knd { background-color: #fff3cd; }
@@ -42,16 +56,25 @@
       background-color: #e0f7fa;
       border-radius: 8px;
     }
+
+    @media (max-width: 600px) {
+      .vehicle-container {
+        flex-direction: column;
+      }
+      .vehicle-btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h2>🧮 Medikamenten-Rechner</h2>
 
-  <div style="display: flex; justify-content: space-between;">
-    <button class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">NND</button>
-    <button class="vehicle-btn knd" onclick="setFahrzeug('knd')">KND</button>
-    <button class="vehicle-btn rtw" onclick="setFahrzeug('rtw')">RTW</button>
+  <div class="vehicle-container">
+    <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">NND</button>
+    <button id="btn-knd" class="vehicle-btn knd" onclick="setFahrzeug('knd')">KND</button>
+    <button id="btn-rtw" class="vehicle-btn rtw" onclick="setFahrzeug('rtw')">RTW</button>
   </div>
 
   <label>
@@ -101,6 +124,16 @@
     function setFahrzeug(typ) {
       fahrzeug = typ;
       aktualisiereMedikamente();
+
+      // Button-Hervorhebung
+      ['nnd', 'knd', 'rtw'].forEach(id => {
+        const btn = document.getElementById('btn-' + id);
+        if (id === typ) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
     }
 
     function aktualisiereMedikamente() {
