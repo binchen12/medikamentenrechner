@@ -53,10 +53,13 @@
     #output, #info-box {
       margin-top: 2em;
       padding: 1em;
-      background-color: #e0f7fa;
       border-radius: 8px;
-      line-height: 1.6em;
+      line-height: 2.0em;
     }
+
+    .info-nnd { background-color: #cce5ff; }
+    .info-knd { background-color: #fff3cd; }
+    .info-rtw { background-color: #f8d7da; }
 
     @media (max-width: 600px) {
       .vehicle-container {
@@ -125,7 +128,7 @@
         Calciumglukonat: { konzentration: 50, dosierung: 50, ampulle: "1 g / 10 ml", zubereitung: "+ 10 ml Glukose 5 %" },
         Cefotaxim: { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
         Esketamin: { konzentration: 1, dosierung: 1, ampulle: "25 mg / 5 ml", zubereitung: "2 ml + 8 ml NaCl" },
-        Glucose40: { konzentration: 200, dosierung: 400, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" },
+        "Glucose 40": { konzentration: 200, dosierung: 400, ampulle: "4 g / 10 ml", zubereitung: "+ 10 ml NaCl" },
         Levetiracetam: { konzentration: 30, dosierung: 30, ampulle: "500 mg / 5 ml", zubereitung: "3 ml + 7 ml NaCl" },
         Midazolam: { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "pur" },
         Naloxon: { konzentration: 0.1, dosierung: 0.01, ampulle: "0.4 mg / 1 ml", zubereitung: "+ 3 ml NaCl" },
@@ -134,7 +137,7 @@
         Propofol: { konzentration: 10, dosierung: 2, ampulle: "500 mg / 50 ml", zubereitung: "pur" },
         Rocuronium: { konzentration: 10, dosierung: 1, ampulle: "100 mg / 10 ml", zubereitung: "pur" },
         Surfactant: { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
-        VitaminK: { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
+        "Vitamin K": { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
       },
       knd: {
         Fentanyl: { konzentration: 50, dosierung: 0.002 },
@@ -162,6 +165,7 @@
       const infoBox = document.getElementById('info-box');
       medikamentSelect.innerHTML = '<option value="">-- Medikament wählen --</option>';
       infoBox.innerHTML = '';
+      infoBox.className = '';
 
       if (fahrzeug && daten[fahrzeug]) {
         const medikamente = Object.keys(daten[fahrzeug]);
@@ -178,6 +182,7 @@
       const medikament = document.getElementById('medikament').value;
       const infoBox = document.getElementById('info-box');
       infoBox.innerHTML = '';
+      infoBox.className = fahrzeug ? 'info-' + fahrzeug : '';
 
       if (fahrzeug && medikament && daten[fahrzeug][medikament]) {
         const eintrag = daten[fahrzeug][medikament];
@@ -188,7 +193,6 @@
 
         if (fahrzeug === 'nnd') {
           infoBox.innerHTML = `
-            <strong>${medikament}</strong><br>
             💉 <strong>Ampulle:</strong> ${eintrag.ampulle || '-'}<br>
             🧪 <strong>Verdünnung:</strong> ${eintrag.zubereitung || '-'}
           `;
