@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: sans-serif;
-      max-width: 500px;
+      max-width: 600px;
       margin: 2em auto;
       padding: 1em;
       background-color: #f9f9f9;
@@ -41,11 +41,33 @@
   <h2>🧮 Medikamenten-Rechner</h2>
 
   <label>
-    Medikament wählen:
-    <select id="medikament" onchange="vordefinieren()">
+    Zielgruppe:
+    <select id="zielgruppe" onchange="aktualisiereMedikamente()">
       <option value="">-- Bitte wählen --</option>
-      <option value="fentanyl">Fentanyl</option>
-      <option value="esketamin">Esketamin</option>
+      <option value="kind">Kind</option>
+      <option value="erwachsener">Erwachsener</option>
+    </select>
+  </label>
+
+  <label>
+    Kategorie:
+    <select id="kategorie" onchange="aktualisiereMedikamente()">
+      <option value="">-- Bitte wählen --</option>
+      <option value="analgosedierung">Analgosedierung</option>
+      <option value="narkose">Narkose</option>
+      <option value="cpr">CPR</option>
+      <option value="anaphylaxie">Anaphylaxie</option>
+      <option value="krampfanfall">Krampfanfall</option>
+      <option value="atemnot">Atemnot</option>
+      <option value="bradykardie">Bradykardie</option>
+      <option value="sonstiges">Sonstiges</option>
+    </select>
+  </label>
+
+  <label>
+    Medikament:
+    <select id="medikament" onchange="vordefinieren()">
+      <option value="">-- Medikament wählen --</option>
     </select>
   </label>
 
@@ -55,8 +77,8 @@
   </label>
 
   <label>
-    Dosierung (mg/kg):
-    <input type="number" id="dosierung" step="0.01" required>
+    Dosierung:
+    <input type="text" id="dosierung" required>
   </label>
 
   <label>
@@ -70,28 +92,105 @@
 
   <script>
     const daten = {
-      fentanyl: {
-        konzentration: 0.05, // 50 µg/ml in mg
-        dosierung: 0.0015 // 1.5 µg/kg = 0.0015 mg/kg
+      kind: {
+        cpr: {
+          adrenalin: { konzentration: 0.1, dosierung: 0.01 },
+          amiodaron: { konzentration: 50, dosierung: 5 },     
+        },
+        anaphylaxie: {
+          "adrenalin i.m.": { konzentration: 1, dosierung: 0.01 },
+          dimetinden: { konzentration: 1, dosierung: 0.1 },
+          prednisolon: { konzentration: 50, dosierung: 2 }
+        },
+        analgosedierung: {
+          "esketamin i.n.": { konzentration: 25, dosierung: 2 },
+          "fentanyl i.n.": { konzentration: 50, dosierung: 0.002 },
+          "midazolam i.n.": { konzentration: 5, dosierung: 0.2 },
+          "esketamin i.v.": { konzentration: 5, dosierung: 0.5 },
+          "fentanyl i.v.": { konzentration: 50, dosierung: 0.001 },
+          piritramid: { konzentration: 1, dosierung: 0.1 },
+          "midazolam i.v.": { konzentration: 1, dosierung: 0.1 }
+        },
+        krampfanfall: {
+          "midazolam i.n.": { konzentration: 5, dosierung: 0.3 },
+          "midazolam i.v.": { konzentration: 1, dosierung: 0.1 },
+          levetiracetam: { konzentration: 50, dosierung: 40 },
+          lorazepam: { konzentration: 1, dosierung: 0.1 }
+        },
+        narkose: {
+          "esketamin i.v.": { konzentration: 25, dosierung: 2 },
+          rocuronium: { konzentration: 10, dosierung: 1 },
+          "fentanyl i.v.": { konzentration: 50, dosierung: 0.003 },
+          propofol: { konzentration: 10, dosierung: 4 },
+          "midazolam i.v.": { konzentration: 1, dosierung: 0.2 },
+        },
+        sonstiges: {
+          ceftriaxon: { konzentration: 50, dosierung: 100 },
+          glucose: { konzentration: 200, dosierung: 200 },
+          adenosin: { konzentration: 2, dosierung: 0.2 },
+          tranexamsaeure: { konzentration: 100, dosierung: 15 }
+        },
+        bradykardie: {}
       },
-      esketamin: {
-        konzentration: 5, // 5 mg/ml
-        dosierung: 0.5 // 0.5 mg/kg
+      erwachsener: {
+        analgosedierung: {
+          fentanyl i.v.: { konzentration: 0.05, dosierung: 0.001 },
+          esketamin i.v.: { konzentration: 25, dosierung: 0.25 }
+        },
+        narkose: {},
+        cpr: {},
+        anaphylaxie: {},
+        krampfanfall: {},
+        atemnot: {},
+        bradykardie: {},
+        sonstiges: {}
       }
     };
 
+    function aktualisiereMedikamente() {
+      const zielgruppe = document.getElementById('zielgruppe').value;
+      const kategorie = document.getElementById('kategorie').value;
+      const medikamentSelect = document.getElementById('medikament');
+
+      medikamentSelect.innerHTML = '<option value="">-- Medikament wählen --</option>';
+
+      if (zielgruppe && kategorie && daten[zielgruppe][kategorie]) {
+        const medikamente = Object.keys(daten[zielgruppe][kategorie]);
+        medikamente.forEach(medikament => {
+          const option = document.createElement('option');
+          option.value = medikament;
+          option.text = medikament.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          medikamentSelect.appendChild(option);
+        });
+      }
+    }
+
     function vordefinieren() {
-      const auswahl = document.getElementById('medikament').value;
-      if (daten[auswahl]) {
-        document.getElementById('konzentration').value = daten[auswahl].konzentration;
-        document.getElementById('dosierung').value = daten[auswahl].dosierung;
+      const zielgruppe = document.getElementById('zielgruppe').value;
+      const kategorie = document.getElementById('kategorie').value;
+      const medikament = document.getElementById('medikament').value;
+
+      if (zielgruppe && kategorie && medikament && daten[zielgruppe][kategorie][medikament]) {
+        const eintrag = daten[zielgruppe][kategorie][medikament];
+        document.getElementById('konzentration').value = eintrag.konzentration;
+
+        const dosis = eintrag.dosierung;
+        const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis.toFixed(2)} mg/kg`;
+        document.getElementById('dosierung').value = dosisText;
       }
     }
 
     function berechne() {
       const konzentration = parseFloat(document.getElementById('konzentration').value);
-      const dosierung = parseFloat(document.getElementById('dosierung').value);
       const gewicht = parseFloat(document.getElementById('gewicht').value);
+      let dosierungWert = document.getElementById('dosierung').value.trim();
+
+      let dosierung;
+      if (dosierungWert.includes('µg')) {
+        dosierung = parseFloat(dosierungWert) / 1000;
+      } else {
+        dosierung = parseFloat(dosierungWert);
+      }
 
       if (isNaN(konzentration) || isNaN(dosierung) || isNaN(gewicht)) {
         document.getElementById('output').innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
