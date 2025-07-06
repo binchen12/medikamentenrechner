@@ -93,6 +93,14 @@
       background-color: #45a049;
     }
 
+    .footer {
+      margin-top: 4em;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+      line-height: 1.6em;
+    }
+
     @media (max-width: 600px) {
       .vehicle-container {
         flex-direction: column;
@@ -140,6 +148,12 @@
   <button class="calculate-btn" onclick="berechne()">💊 Berechnen</button>
 
   <div id="output"></div>
+
+  <div class="footer">
+    Version 1.0 – Stand: Juli 2025<br>
+    Alle Inhalte wurden sorgfältig recherchiert, dennoch wird keine Gewähr für die Richtigkeit übernommen.<br>
+    Die Verantwortung für die Anwendung liegt stets beim Anwender.
+  </div>
 
   <script>
     let fahrzeug = null;
@@ -202,6 +216,9 @@
       if (fahrzeug && daten[fahrzeug]) {
         const medikamente = Object.keys(daten[fahrzeug]);
         medikamente.forEach(medikament => {
+          const eintrag = daten[fahrzeug][medikament];
+          const dosis = eintrag.dosierung;
+          const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis % 1 === 0 ? dosis.toFixed(0) : dosis.toFixed(2)} mg/kg`;
           const option = document.createElement('option');
           option.value = medikament;
           option.text = medikament;
@@ -220,7 +237,7 @@
         const eintrag = daten[fahrzeug][medikament];
         document.getElementById('konzentration').value = eintrag.konzentration;
         const dosis = eintrag.dosierung;
-        const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis.toFixed(2)} mg/kg`;
+        const dosisText = dosis < 0.01 ? `${(dosis * 1000).toFixed(1)} µg/kg` : `${dosis % 1 === 0 ? dosis.toFixed(0) : dosis.toFixed(2)} mg/kg`;
         document.getElementById('dosierung').value = dosisText;
 
         if (fahrzeug === 'nnd') {
