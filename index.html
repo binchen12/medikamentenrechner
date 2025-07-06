@@ -116,6 +116,7 @@
 </head>
 <body>
   <h2>💊 Medikamenten-Rechner</h2>
+
   <div class="vehicle-container">
     <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">👶 NND</button>
     <button id="btn-knd" class="vehicle-btn knd" onclick="setFahrzeug('knd')">🧒 KND</button>
@@ -186,15 +187,10 @@ const daten = {
     "Surfactant e.b.": { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
     "Vitamin K i.v.": { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
   },
-    "Adrenalin i.v.": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
-    "Amiodaron i.v.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "pur" }
-    // Weitere NND-Medikamente können hier ergänzt werden
-  },
   knd: {
     "Adrenalin i.v. - CPR": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "1 ml/1 mg + 9 ml NaCl" },
     "Amiodaron i.v.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "unverdünnt" },
     "Midazolam i.n. – Analgosedierung": { konzentration: 5, dosierung: 0.2, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" }
-    // Weitere KND-Medikamente können hier ergänzt werden
   }
 };
 
@@ -204,22 +200,6 @@ function setFahrzeug(typ) {
   buttons.forEach(btn => btn.classList.remove('active'));
   const activeBtn = document.getElementById('btn-' + typ);
   if (activeBtn) activeBtn.classList.add('active');
-
-  const medSelect = document.getElementById("medikamentenwahl");
-  const infoBox = document.getElementById("info-box");
-  const einheit = document.getElementById("einheit-auswahl");
-
-  if (typ === 'manuell') {
-    medSelect.style.display = 'none';
-    infoBox.innerHTML = '';
-    infoBox.className = '';
-    einheit.style.display = 'block';
-  } else {
-    medSelect.style.display = 'block';
-    einheit.style.display = 'none';
-    aktualisiereMedikamente();
-  }
-});
 
   const medSelect = document.getElementById("medikamentenwahl");
   const infoBox = document.getElementById("info-box");
