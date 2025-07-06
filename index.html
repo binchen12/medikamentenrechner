@@ -164,8 +164,117 @@
   </div>
 
 <script>
-// Die Daten für NND, KND, RTW und die gesamte Logik folgen hier
-// (bereits eingefügt im vorherigen Schritt)
+let fahrzeug = null;
+
+const daten = {
+  knd: {
+    "Adrenalin i.v./i.o.": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "1 ml/1 mg + 9 ml NaCl" },
+    "Amiodaron i.v./i.o.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "unverdünnt" },
+    "Adrenalin i.m.": { konzentration: 1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Dimetinden i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "4 mg / 4 ml", zubereitung: "unverdünnt" },
+    "Prednisolon i.v.": { konzentration: 50, dosierung: 2, ampulle: "250 mg TS + 5 ml NaCl", zubereitung: "250 mg TS + 5 ml NaCl" },
+    "Balanziertes VEL i.v./i.o.": { konzentration: 0, dosierung: 10, ampulle: "–", zubereitung: "unverdünnt" },
+    "Gelatine 4% i.v./i.o.": { konzentration: 40, dosierung: 10, ampulle: "–", zubereitung: "unverdünnt" },
+    "Esketamin i.n.": { konzentration: 25, dosierung: 2, ampulle: "25 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Fentanyl i.n.": { konzentration: 50, dosierung: 0.002, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
+    "Midazolam i.n. – Analgosedierung": { konzentration: 5, dosierung: 0.2, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Midazolam i.n. – Krampfanfall": { konzentration: 5, dosierung: 0.3, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Esketamin i.v./i.o.": { konzentration: 5, dosierung: 0.5, ampulle: "25 mg / 5 ml", zubereitung: "1 ml/25 mg + 4 ml NaCl" },
+    "Fentanyl i.v./i.o. – Analgosedierung": { konzentration: 50, dosierung: 0.001, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
+    "Fentanyl i.v./i.o. – Narkose": { konzentration: 50, dosierung: 0.003, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
+    "Piritramid i.v./i.o.": { konzentration: 1, dosierung: 0.1, ampulle: "15 mg / 2 ml", zubereitung: "2 ml / 15 mg + 13 ml NaCl" },
+    "Midazolam i.v./i.o. – Analgosedierung": { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
+    "Midazolam i.v./i.o. – Krampfanfall": { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
+    "Midazolam i.v./i.o. – Narkose": { konzentration: 1, dosierung: 0.2, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
+    "Levetiracetam i.v./i.o.": { konzentration: 50, dosierung: 40, ampulle: "500 mg / 5 ml", zubereitung: "5 ml / 500 mg + 5 ml NaCl" },
+    "Lorazepam i.v./i.o.": { konzentration: 1, dosierung: 0.1, ampulle: "2 mg / 1 ml", zubereitung: "1 ml / 2 mg + 1 ml NaCl" },
+    "Rocuronium i.v./i.o.": { konzentration: 10, dosierung: 1, ampulle: "10 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Propofol 1% i.v./i.o.": { konzentration: 10, dosierung: 4, ampulle: "10 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Propofol-Perfusor": { konzentration: 10, dosierung: 6, ampulle: "10 mg / ml", zubereitung: "unverdünnt" },
+    "Dexamethason oral": { konzentration: 0.4, dosierung: 0.15, ampulle: "Saft", zubereitung: "Saft unverdünnt" },
+    "Ceftriaxon 2 g i.v./i.o.": { konzentration: 50, dosierung: 100, ampulle: "2 g", zubereitung: "+ 40 ml NaCl" },
+    "Glucose 40% i.v./i.o.": { konzentration: 200, dosierung: 200, ampulle: "4 g / 10 ml", zubereitung: "10 ml / 4 g + 10 ml NaCl" },
+    "Adenosin i.v./i.o.": { konzentration: 2, dosierung: 0.2, ampulle: "6 mg / 2 ml", zubereitung: "+ 1 ml" },
+    "Tranexamsäure i.v./i.o.": { konzentration: 100, dosierung: 15, ampulle: "500 mg / 5 ml", zubereitung: "unverdünnt" }
+  }
+};
+
+function setFahrzeug(typ) {
+  fahrzeug = typ;
+  ['nnd', 'knd', 'rtw', 'manuell'].forEach(id => {
+    const btn = document.getElementById('btn-' + id);
+    if (btn) btn.classList.toggle('active', id === typ);
+  });
+
+  const medSelect = document.getElementById("medikamentenwahl");
+  const infoBox = document.getElementById("info-box");
+  const einheit = document.getElementById("einheit-auswahl");
+
+  if (typ === 'manuell') {
+    medSelect.style.display = 'none';
+    infoBox.innerHTML = '';
+    infoBox.className = '';
+    einheit.style.display = 'block';
+  } else {
+    medSelect.style.display = 'block';
+    einheit.style.display = 'none';
+    aktualisiereMedikamente();
+  }
+}
+
+function aktualisiereMedikamente() {
+  const select = document.getElementById("medikament");
+  const infoBox = document.getElementById("info-box");
+  select.innerHTML = '<option value="">-- Medikament wählen --</option>';
+  infoBox.innerHTML = "";
+  infoBox.className = "";
+  if (!fahrzeug || !daten[fahrzeug]) return;
+  Object.keys(daten[fahrzeug]).forEach(med => {
+    const opt = document.createElement("option");
+    opt.value = med;
+    opt.textContent = med;
+    select.appendChild(opt);
+  });
+}
+
+function vordefinieren() {
+  const med = document.getElementById("medikament").value;
+  const infoBox = document.getElementById("info-box");
+  infoBox.innerHTML = "";
+  infoBox.className = fahrzeug ? "info-" + fahrzeug : "";
+  if (!fahrzeug || !daten[fahrzeug][med]) return;
+  const d = daten[fahrzeug][med];
+  document.getElementById("konzentration").value = d.konzentration;
+  document.getElementById("dosierung").value = d.dosierung;
+  if (d.ampulle || d.zubereitung) {
+    infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
+  }
+}
+
+function formatNum(n) {
+  return n % 1 === 0 ? n.toFixed(0) : n.toFixed(2);
+}
+
+function berechne() {
+  const konzentration = parseFloat(document.getElementById("konzentration").value);
+  const gewicht = parseFloat(document.getElementById("gewicht").value);
+  const dosierung = parseFloat(document.getElementById("dosierung").value);
+  const einheit = document.getElementById("einheit")?.value || 'mg';
+
+  if (isNaN(konzentration) || isNaN(gewicht) || isNaN(dosierung)) {
+    document.getElementById("output").innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
+    return;
+  }
+
+  const dosis = (einheit === 'ug' ? dosierung / 1000 : dosierung) * gewicht;
+  const volumen = dosis / konzentration;
+
+  document.getElementById("output").innerHTML = `
+    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
+    💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
+  `;
+}
+</script>
 </script>
 
 </body>
