@@ -273,15 +273,31 @@ function formatNum(n) {
 }
 
 function berechne() {
-  const konzentration = parseFloat(document.getElementById("konzentration").value);
-  const gewicht = parseFloat(document.getElementById("gewicht").value);
-  const dosierung = parseFloat(document.getElementById("dosierung").value);
-  const einheit = document.getElementById("einheit")?.value || 'mg';
+  const konzentrationEl = document.getElementById("konzentration");
+  const gewichtEl = document.getElementById("gewicht");
+  const dosierungEl = document.getElementById("dosierung");
+
+  const konzentration = parseFloat(konzentrationEl.value);
+  const gewicht = parseFloat(gewichtEl.value);
+  const dosierung = parseFloat(dosierungEl.value);
+  const einheitSelect = document.getElementById("einheit");
+  const einheit = einheitSelect ? einheitSelect.value : 'mg';
+
+  console.log({ konzentration, gewicht, dosierung, einheit });
 
   if (isNaN(konzentration) || isNaN(gewicht) || isNaN(dosierung)) {
     document.getElementById("output").innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
     return;
   }
+
+  const dosis = (einheit === 'ug' ? dosierung / 1000 : dosierung) * gewicht;
+  const volumen = dosis / konzentration;
+
+  document.getElementById("output").innerHTML = `
+    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
+    💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
+  `;
+}
 
   const dosis = (einheit === 'ug' ? dosierung / 1000 : dosierung) * gewicht;
   const volumen = dosis / konzentration;
