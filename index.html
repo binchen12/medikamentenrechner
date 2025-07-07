@@ -249,7 +249,8 @@ function aktualisiereMedikamente() {
   Object.keys(daten[fahrzeug]).sort().forEach(med => {
     const opt = document.createElement("option");
     opt.value = med;
-    opt.textContent = med;
+    const einheit = daten[fahrzeug][med].dosierung < 0.01 ? 'µg/kg' : 'mg/kg';
+    opt.textContent = `${med} (${daten[fahrzeug][med].dosierung} ${einheit})`;
     select.appendChild(opt);
   });
 }
@@ -263,6 +264,12 @@ function vordefinieren() {
   const d = daten[fahrzeug][med];
   document.getElementById("konzentration").value = d.konzentration;
   document.getElementById("dosierung").value = d.dosierung;
+  const einheit = d.dosierung < 0.01 ? 'µg/kg' : 'mg/kg';
+  document.getElementById("dosierung").nextElementSibling?.remove();
+  const einheitLabel = document.createElement("div");
+  einheitLabel.style.marginTop = '0.5em';
+  einheitLabel.textContent = `💡 Dosierungseinheit: ${einheit}`;
+  document.getElementById("dosierung").parentNode.appendChild(einheitLabel);
   if (d.ampulle || d.zubereitung) {
     infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
   }
@@ -292,7 +299,7 @@ function berechne() {
   const volumen = dosis / konzentration;
 
   document.getElementById("output").innerHTML = `
-    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
+    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg (${dosierung} ${einheit}/kg)<br>
     💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
   `;
 }
