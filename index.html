@@ -263,13 +263,8 @@ function vordefinieren() {
   if (!fahrzeug || !daten[fahrzeug][med]) return;
   const d = daten[fahrzeug][med];
   document.getElementById("konzentration").value = d.konzentration;
-  document.getElementById("dosierung").value = d.dosierung;
   const einheit = d.dosierung < 0.01 ? 'µg/kg' : 'mg/kg';
-  document.getElementById("dosierung").nextElementSibling?.remove();
-  const einheitLabel = document.createElement("div");
-  einheitLabel.style.marginTop = '0.5em';
-  einheitLabel.textContent = `💡 Dosierungseinheit: ${einheit}`;
-  document.getElementById("dosierung").parentNode.appendChild(einheitLabel);
+  document.getElementById("dosierung").value = `${d.dosierung} ${einheit}`;
   if (d.ampulle || d.zubereitung) {
     infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
   }
