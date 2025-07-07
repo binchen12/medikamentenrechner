@@ -165,10 +165,10 @@
 
 <script>
 let fahrzeug = null;
+
 const daten = {
   nnd: {
-    $1
-    "Adrenalin i.m.": { konzentration: 1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "unverdünnt" },
+    "Adenosin i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "6 mg / 2 ml", zubereitung: "+ 4 ml NaCl" },
     "Adrenalin i.v.": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "Fertigspritze" },
     "Amiodaron i.v.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "pur" },
     "Ampicillin i.v.": { konzentration: 50, dosierung: 50, ampulle: "500 mg", zubereitung: "+ 10 ml NaCl" },
@@ -187,43 +187,39 @@ const daten = {
     "Surfactant e.b.": { konzentration: 45, dosierung: 108, ampulle: "108 mg / 2.4 ml", zubereitung: "+ Lösungsmittel" },
     "Vitamin K i.v.": { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
   },
-  $1
+  knd: {
     "Adenosin i.v.": { konzentration: 2, dosierung: 0.2, ampulle: "6 mg / 2 ml", zubereitung: "+ 1 ml" },
-    $1
-    "Adrenalin i.m.": { konzentration: 1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "unverdünnt" },
-    $1
-    "Adrenalin i.v. - CPR": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "1 ml/1 mg + 9 ml NaCl" },
-    "Amiodaron i.v.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "unverdünnt" },
-    
-    "Ceftriaxon i.v.": { konzentration: 50, dosierung: 100, ampulle: "2 g", zubereitung: "+ 40 ml NaCl" },
-    "Dexamethason oral": { konzentration: 0.4, dosierung: 0.15, ampulle: "Saft", zubereitung: "Saft unverdünnt" },
-    "Dimetinden i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "4 mg / 4 ml", zubereitung: "unverdünnt" },
-    "Esketamin i.n. – Analgosedierung": { konzentration: 25, dosierung: 2, ampulle: "25 mg / 1 ml", zubereitung: "unverdünnt" },
-    "Esketamin i.v. - Analgosedierung": { konzentration: 5, dosierung: 0.5, ampulle: "25 mg / 5 ml", zubereitung: "1 ml/25 mg + 4 ml NaCl" },
-    "Esketamin i.v. – Narkose": { konzentration: 25, dosierung: 2, ampulle: "25 mg / 1 ml", zubereitung: "unverdünnt" },
-    "Fentanyl i.n. – Analgosedierung": { konzentration: 50, dosierung: 0.002, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
-    "Fentanyl i.v. – Analgosedierung": { konzentration: 50, dosierung: 0.001, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
-    "Fentanyl i.v. – Narkose": { konzentration: 50, dosierung: 0.003, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
-    "Glucose 40% i.v.": { konzentration: 200, dosierung: 200, ampulle: "4 g / 10 ml", zubereitung: "10 ml / 4 g + 10 ml NaCl" },
-    "Levetiracetam i.v.": { konzentration: 50, dosierung: 40, ampulle: "500 mg / 5 ml", zubereitung: "5 ml / 500 mg + 5 ml NaCl" },
-    "Lorazepam i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "2 mg / 1 ml", zubereitung: "1 ml / 2 mg + 1 ml NaCl" },
-    "Midazolam i.n. – Analgosedierung": { konzentration: 5, dosierung: 0.2, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" },
-    "Midazolam i.n. – Krampfanfall": { konzentration: 5, dosierung: 0.3, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" },
-    "Midazolam i.v. – Analgosedierung": { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
-    "Midazolam i.v. – Krampfanfall": { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
-    "Midazolam i.v. – Narkose": { konzentration: 1, dosierung: 0.2, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
-    "Piritramid i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "15 mg / 2 ml", zubereitung: "2 ml / 15 mg + 13 ml NaCl" },
-    "Prednisolon i.v.": { konzentration: 50, dosierung: 2, ampulle: "250 mg TS + 5 ml NaCl", zubereitung: "250 mg TS + 5 ml NaCl" },
-    "Propofol 1% i.v.": { konzentration: 10, dosierung: 4, ampulle: "10 mg / 1 ml", zubereitung: "unverdünnt" },
-    "Rocuronium i.v.": { konzentration: 10, dosierung: 1, ampulle: "10 mg / 1 ml", zubereitung: "unverdünnt" },
-    "Tranexamsäure i.v.": { konzentration: 100, dosierung: 15, ampulle: "500 mg / 5 ml", zubereitung: "unverdünnt" }
-  },
-  rtw: {}
-}; // Platzhalter für Medikamentendaten
+  "Adrenalin i.m.": { konzentration: 1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Adrenalin i.v. - CPR": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "1 ml/1 mg + 9 ml NaCl" },
+  "Amiodaron i.v.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "unverdünnt" },
+  "Ceftriaxon i.v.": { konzentration: 50, dosierung: 100, ampulle: "2 g", zubereitung: "+ 40 ml NaCl" },
+  "Dexamethason oral": { konzentration: 0.4, dosierung: 0.15, ampulle: "Saft", zubereitung: "Saft unverdünnt" },
+  "Dimetinden i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "4 mg / 4 ml", zubereitung: "unverdünnt" },
+  "Esketamin i.n. – Analgosedierung": { konzentration: 25, dosierung: 2, ampulle: "25 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Esketamin i.v. - Analgosedierung": { konzentration: 5, dosierung: 0.5, ampulle: "25 mg / 5 ml", zubereitung: "1 ml/25 mg + 4 ml NaCl" },
+  "Esketamin i.v. – Narkose": { konzentration: 25, dosierung: 2, ampulle: "25 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Fentanyl i.n. – Analgosedierung": { konzentration: 50, dosierung: 0.002, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
+  "Fentanyl i.v. – Analgosedierung": { konzentration: 50, dosierung: 0.001, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
+  "Fentanyl i.v. – Narkose": { konzentration: 50, dosierung: 0.003, ampulle: "50 µg / 1 ml", zubereitung: "unverdünnt" },
+  "Glucose 40% i.v.": { konzentration: 200, dosierung: 200, ampulle: "4 g / 10 ml", zubereitung: "10 ml / 4 g + 10 ml NaCl" },
+  "Levetiracetam i.v.": { konzentration: 50, dosierung: 40, ampulle: "500 mg / 5 ml", zubereitung: "5 ml / 500 mg + 5 ml NaCl" },
+  "Lorazepam i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "2 mg / 1 ml", zubereitung: "1 ml / 2 mg + 1 ml NaCl" },
+  "Midazolam i.n. – Analgosedierung": { konzentration: 5, dosierung: 0.2, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Midazolam i.n. – Krampfanfall": { konzentration: 5, dosierung: 0.3, ampulle: "5 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Midazolam i.v. – Analgosedierung": { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
+  "Midazolam i.v. – Krampfanfall": { konzentration: 1, dosierung: 0.1, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
+  "Midazolam i.v. – Narkose": { konzentration: 1, dosierung: 0.2, ampulle: "5 mg / 5 ml", zubereitung: "1 ml / 5 mg + 4 ml NaCl" },
+  "Piritramid i.v.": { konzentration: 1, dosierung: 0.1, ampulle: "15 mg / 2 ml", zubereitung: "2 ml / 15 mg + 13 ml NaCl" },
+  "Prednisolon i.v.": { konzentration: 50, dosierung: 2, ampulle: "250 mg TS + 5 ml NaCl", zubereitung: "250 mg TS + 5 ml NaCl" },
+  "Propofol 1% i.v.": { konzentration: 10, dosierung: 4, ampulle: "10 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Rocuronium i.v.": { konzentration: 10, dosierung: 1, ampulle: "10 mg / 1 ml", zubereitung: "unverdünnt" },
+  "Tranexamsäure i.v.": { konzentration: 100, dosierung: 15, ampulle: "500 mg / 5 ml", zubereitung: "unverdünnt" }
+},
 
 function setFahrzeug(typ) {
   fahrzeug = typ;
-  document.querySelectorAll('.vehicle-btn').forEach(btn => btn.classList.remove('active'));
+  const buttons = document.querySelectorAll('.vehicle-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
   const activeBtn = document.getElementById('btn-' + typ);
   if (activeBtn) activeBtn.classList.add('active');
 
@@ -295,6 +291,7 @@ function berechne() {
     💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
   `;
 }
+</script>
 </script>
 </body>
 </html>
