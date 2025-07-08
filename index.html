@@ -262,9 +262,7 @@ function vordefinieren() {
   if (!fahrzeug || !daten[fahrzeug][med]) return;
   const d = daten[fahrzeug][med];
   document.getElementById("konzentration").value = d.konzentration;
-  const einheit = d.dosierung < 0.01 ? 'µg/kg' : 'mg/kg';
   document.getElementById("dosierung").value = d.dosierung;
-  document.getElementById("einheit").value = einheit === 'µg/kg' ? 'ug' : 'mg';
   if (d.ampulle || d.zubereitung) {
     infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
   }
@@ -294,7 +292,7 @@ function berechne() {
   const volumen = dosis / konzentration;
 
   document.getElementById("output").innerHTML = `
-    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg (${dosierung} ${einheit}/kg)<br>
+    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
     💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
   `;
 }
