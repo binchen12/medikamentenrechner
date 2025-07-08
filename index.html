@@ -115,125 +115,7 @@
   </style>
 </head>
 <body>
-  <!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medikamenten-Rechner</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Nunito', sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 1.5em;
-      background-color: #f4f6f8;
-      color: #333;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 1.5em;
-      color: #2c3e50;
-    }
-    label {
-      display: block;
-      margin-top: 1em;
-      font-weight: 600;
-    }
-    input, select, button.vehicle-btn {
-      width: 100%;
-      padding: 0.9em;
-      margin-top: 0.4em;
-      font-size: 1.1em;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    .vehicle-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.6em;
-      margin-bottom: 1.2em;
-    }
-    .vehicle-btn {
-      flex: 1 1 45%;
-      padding: 1em;
-      border: none;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 1.1em;
-      cursor: pointer;
-      opacity: 0.7;
-      transition: all 0.2s ease-in-out;
-    }
-    .vehicle-btn.active {
-      opacity: 1;
-      transform: scale(1.03);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .nnd { background-color: #e0f0ff; color: #005a9c; }
-    .knd { background-color: #fff8dc; color: #9c6c00; }
-    .rtw { background-color: #ffe4e1; color: #c0392b; }
-    .manuell { background-color: #e2fbe9; color: #218838; }
-    #info-box {
-      margin-top: 2em;
-      padding: 1.2em;
-      border-radius: 10px;
-      line-height: 2.0em;
-      text-align: center;
-      font-weight: 500;
-    }
-    .info-nnd { background-color: #e0f0ff; }
-    .info-knd { background-color: #fff8dc; }
-    .info-rtw { background-color: #ffe4e1; }
-    #output {
-      margin-top: 2em;
-      padding: 1.5em;
-      background-color: #d4edda;
-      border-radius: 12px;
-      font-size: 1.4em;
-      line-height: 2.4em;
-      text-align: center;
-      color: #155724;
-      box-shadow: 0 0 8px rgba(0,0,0,0.05);
-    }
-    .calculate-btn {
-      margin-top: 1.8em;
-      font-size: 1.2em;
-      padding: 1em;
-      width: 100%;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.2s ease;
-    }
-    .calculate-btn:hover {
-      background-color: #218838;
-    }
-    .footer {
-      margin-top: 4em;
-      font-size: 0.9em;
-      color: #777;
-      text-align: center;
-      line-height: 1.6em;
-    }
-    .inline-select {
-      display: flex;
-      gap: 0.6em;
-    }
-    .inline-select > div {
-      flex: 1;
-    }
-  </style>
-</head>
-<body>
   <h2>💊 Medikamenten-Rechner</h2>
-
   <div class="vehicle-container">
     <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">👶 NND</button>
     <button id="btn-knd" class="vehicle-btn knd" onclick="setFahrzeug('knd')">🧒 KND</button>
@@ -255,15 +137,8 @@
 
   <div class="inline-select">
     <div>
-      <label>Dosierung (mg/ml):</label>
+      <label id="dosierung-label">Dosierung <span id="einheit-label">(mg/kg)</span>:</label>
       <input type="number" id="dosierung" step="0.001" required>
-    </div>
-    <div id="einheit-auswahl" style="display: none;">
-      <label>Einheit:</label>
-      <select id="einheit">
-        <option value="mg">mg/kg</option>
-        <option value="ug">µg/kg</option>
-      </select>
     </div>
   </div>
 
@@ -304,7 +179,7 @@ const daten = {
     "Vitamin K i.v.": { konzentration: 0.2, dosierung: 0.2, ampulle: "2 mg / 0.1 ml", zubereitung: "+ 9.8 ml NaCl" }
   },
   knd: {
-    "Adenosin i.v.": { konzentration: 2, dosierung: 0.2, ampulle: "6 mg / 2 ml", zubereitung: "+ 1 ml" },
+     "Adenosin i.v.": { konzentration: 2, dosierung: 0.2, ampulle: "6 mg / 2 ml", zubereitung: "+ 1 ml" },
     "Adrenalin i.m.": { konzentration: 1, dosierung: 0.01, ampulle: "1 mg / 1 ml", zubereitung: "unverdünnt" },
     "Adrenalin i.v. - CPR": { konzentration: 0.1, dosierung: 0.01, ampulle: "1 mg / 10 ml", zubereitung: "1 ml/1 mg + 9 ml NaCl" },
     "Amiodaron i.v.": { konzentration: 50, dosierung: 5, ampulle: "150 mg / 3 ml", zubereitung: "unverdünnt" },
@@ -337,31 +212,13 @@ const daten = {
 function setFahrzeug(typ) {
   fahrzeug = typ;
   document.querySelectorAll('.vehicle-btn').forEach(btn => btn.classList.remove('active'));
-  const activeBtn = document.getElementById('btn-' + typ);
-  if (activeBtn) activeBtn.classList.add('active');
-
-  const medSelect = document.getElementById("medikamentenwahl");
-  const infoBox = document.getElementById("info-box");
-  const einheit = document.getElementById("einheit-auswahl");
-
-  if (typ === 'manuell') {
-    medSelect.style.display = 'none';
-    infoBox.innerHTML = '';
-    infoBox.className = '';
-    einheit.style.display = 'block';
-  } else {
-    medSelect.style.display = 'block';
-    einheit.style.display = 'none';
-    aktualisiereMedikamente();
-  }
+  document.getElementById('btn-' + typ).classList.add('active');
+  aktualisiereMedikamente();
 }
 
 function aktualisiereMedikamente() {
   const select = document.getElementById("medikament");
-  const infoBox = document.getElementById("info-box");
   select.innerHTML = '<option value="">-- Medikament wählen --</option>';
-  infoBox.innerHTML = "";
-  infoBox.className = "";
   if (!fahrzeug || !daten[fahrzeug]) return;
   Object.keys(daten[fahrzeug]).sort().forEach(med => {
     const opt = document.createElement("option");
@@ -373,16 +230,11 @@ function aktualisiereMedikamente() {
 
 function vordefinieren() {
   const med = document.getElementById("medikament").value;
-  const infoBox = document.getElementById("info-box");
-  infoBox.innerHTML = "";
-  infoBox.className = fahrzeug ? "info-" + fahrzeug : "";
   if (!fahrzeug || !daten[fahrzeug][med]) return;
   const d = daten[fahrzeug][med];
   document.getElementById("konzentration").value = d.konzentration;
   document.getElementById("dosierung").value = d.dosierung;
-  if (d.ampulle || d.zubereitung) {
-    infoBox.innerHTML = `💉 <strong>Ampulle:</strong> ${d.ampulle || '-'}<br>🧪 <strong>Verdünnung:</strong> ${d.zubereitung || '-'}`;
-  }
+  document.getElementById("einheit-label").textContent = `(${d.einheit})`;
 }
 
 function formatNum(n) {
@@ -390,32 +242,17 @@ function formatNum(n) {
 }
 
 function berechne() {
-  const konzentrationEl = document.getElementById("konzentration");
-  const gewichtEl = document.getElementById("gewicht");
-  const dosierungEl = document.getElementById("dosierung");
-
-  const konzentration = parseFloat(konzentrationEl.value);
-  const gewicht = parseFloat(gewichtEl.value);
-  const dosierung = parseFloat(dosierungEl.value);
-  const einheitSelect = document.getElementById("einheit");
-  const einheit = einheitSelect ? einheitSelect.value : 'mg';
-
-  if (isNaN(konzentration) || isNaN(gewicht) || isNaN(dosierung)) {
+  const konzentration = parseFloat(document.getElementById("konzentration").value);
+  const dosierung = parseFloat(document.getElementById("dosierung").value);
+  const gewicht = parseFloat(document.getElementById("gewicht").value);
+  if (isNaN(konzentration) || isNaN(dosierung) || isNaN(gewicht)) {
     document.getElementById("output").innerHTML = "❗ Bitte alle Felder korrekt ausfüllen.";
     return;
   }
-
-  const dosis = (einheit === 'ug' ? dosierung / 1000 : dosierung) * gewicht;
+  const dosis = dosierung * gewicht;
   const volumen = dosis / konzentration;
-
-  document.getElementById("output").innerHTML = `
-    💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
-    💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
-  `;
+  document.getElementById("output").innerHTML = `💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml`;
 }
 </script>
-</body>
-</html>
-
 </body>
 </html>
