@@ -115,6 +115,123 @@
   </style>
 </head>
 <body>
+  <!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medikamenten-Rechner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.5em;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5em;
+      color: #2c3e50;
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+      font-weight: 600;
+    }
+    input, select, button.vehicle-btn {
+      width: 100%;
+      padding: 0.9em;
+      margin-top: 0.4em;
+      font-size: 1.1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .vehicle-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.6em;
+      margin-bottom: 1.2em;
+    }
+    .vehicle-btn {
+      flex: 1 1 45%;
+      padding: 1em;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.2s ease-in-out;
+    }
+    .vehicle-btn.active {
+      opacity: 1;
+      transform: scale(1.03);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .nnd { background-color: #e0f0ff; color: #005a9c; }
+    .knd { background-color: #fff8dc; color: #9c6c00; }
+    .rtw { background-color: #ffe4e1; color: #c0392b; }
+    .manuell { background-color: #e2fbe9; color: #218838; }
+    #info-box {
+      margin-top: 2em;
+      padding: 1.2em;
+      border-radius: 10px;
+      line-height: 2.0em;
+      text-align: center;
+      font-weight: 500;
+    }
+    .info-nnd { background-color: #e0f0ff; }
+    .info-knd { background-color: #fff8dc; }
+    .info-rtw { background-color: #ffe4e1; }
+    #output {
+      margin-top: 2em;
+      padding: 1.5em;
+      background-color: #d4edda;
+      border-radius: 12px;
+      font-size: 1.4em;
+      line-height: 2.4em;
+      text-align: center;
+      color: #155724;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    }
+    .calculate-btn {
+      margin-top: 1.8em;
+      font-size: 1.2em;
+      padding: 1em;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+    .calculate-btn:hover {
+      background-color: #218838;
+    }
+    .footer {
+      margin-top: 4em;
+      font-size: 0.9em;
+      color: #777;
+      text-align: center;
+      line-height: 1.6em;
+    }
+    .inline-select {
+      display: flex;
+      gap: 0.6em;
+    }
+    .inline-select > div {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
   <h2>💊 Medikamenten-Rechner</h2>
 
   <div class="vehicle-container">
@@ -299,3 +416,7 @@ function berechne() {
 </script>
 </body>
 </html>
+
+</body>
+</html>
+
