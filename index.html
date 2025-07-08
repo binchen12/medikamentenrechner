@@ -15,7 +15,6 @@
       --btn-hover: #218838;
       --input-border: #ccc;
     }
-
     body.dark {
       --bg: #1e1e1e;
       --text: #f4f4f4;
@@ -25,7 +24,6 @@
       --btn-hover: #2d7032;
       --input-border: #555;
     }
-
     body {
       font-family: 'Nunito', sans-serif;
       max-width: 600px;
@@ -94,6 +92,9 @@
       text-align: center;
       font-weight: 500;
     }
+    .info-nnd { background-color: #e0f0ff; }
+    .info-knd { background-color: #fff8dc; }
+    .info-rtw { background-color: #ffe4e1; }
     #output {
       margin-top: 2em;
       padding: 1.5em;
@@ -105,8 +106,9 @@
       color: var(--card-text);
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
-    .calculate-btn {
-      margin-top: 1.8em;
+    .calculate-btn,
+    .reset-btn {
+      margin-top: 1.2em;
       font-size: 1.2em;
       padding: 1em;
       width: 100%;
@@ -118,7 +120,8 @@
       font-weight: bold;
       transition: background-color 0.2s ease;
     }
-    .calculate-btn:hover {
+    .calculate-btn:hover,
+    .reset-btn:hover {
       background-color: var(--btn-hover);
     }
     .footer {
@@ -149,7 +152,7 @@
 </head>
 <body>
   <button class="toggle-darkmode" onclick="document.body.classList.toggle('dark')">🌓 Dark Mode umschalten</button>
-   <h2>💊 Medikamenten-Rechner</h2>
+  <h2>💊 Medikamenten-Rechner</h2>
 
   <div class="vehicle-container">
     <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">👶 NND</button>
@@ -168,26 +171,20 @@
   <div id="info-box"></div>
 
   <label>Konzentration (mg/ml):</label>
-  <input type="number" id="konzentration" step="0.01" required>
+  <input type="number" id="konzentration" step="0.01">
 
   <div class="inline-select">
     <div>
-      <label>Dosierung (mg/ml):</label>
-      <input type="number" id="dosierung" step="0.001" required>
-    </div>
-    <div id="einheit-auswahl" style="display: none;">
-      <label>Einheit:</label>
-      <select id="einheit">
-        <option value="mg">mg/kg</option>
-        <option value="ug">µg/kg</option>
-      </select>
+      <label id="dosierung-label">Dosierung <span id="einheit-label">(mg/kg)</span>:</label>
+      <input type="number" id="dosierung" step="0.001">
     </div>
   </div>
 
   <label>Gewicht des Patienten (kg):</label>
-  <input type="number" id="gewicht" step="0.1" required>
+  <input type="number" id="gewicht" step="0.1">
 
   <button class="calculate-btn" onclick="berechne()">📈 Berechnen</button>
+  <button class="reset-btn" onclick="resetForm()">♻️ Zurücksetzen</button>
 
   <div id="output"></div>
 
@@ -196,7 +193,6 @@
     Alle Inhalte wurden sorgfältig recherchiert, dennoch wird keine Gewähr für die Richtigkeit übernommen.<br>
     Die Verantwortung für die Anwendung liegt stets beim Anwender.
   </div>
-
 <script>
 let fahrzeug = null;
 const daten = {
@@ -329,6 +325,20 @@ function berechne() {
     💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
     💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
   `;
+}
+</script>
+<script>
+function resetForm() {
+  document.getElementById("konzentration").value = "";
+  document.getElementById("gewicht").value = "";
+  document.getElementById("dosierung").value = "";
+  document.getElementById("medikament").selectedIndex = 0;
+  document.getElementById("output").innerHTML = "";
+  document.getElementById("info-box").innerHTML = "";
+  document.getElementById("info-box").className = "";
+  fahrzeug = null;
+  document.querySelectorAll('.vehicle-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById("medikamentenwahl").style.display = 'block';
 }
 </script>
 </body>
