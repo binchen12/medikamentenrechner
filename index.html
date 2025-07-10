@@ -11,19 +11,19 @@
       --text: #333;
       --card-bg: #d4edda;
       --card-text: #155724;
-      --btn-bg: #28a745;
-      --btn-hover: #218838;
+      --input-bg: white;
       --input-border: #ccc;
     }
+
     body.dark {
-      --bg: #1e1e1e;
+      --bg: #121212;
       --text: #f4f4f4;
-      --card-bg: #2d4f2f;
-      --card-text: #cde7c7;
-      --btn-bg: #3e8e41;
-      --btn-hover: #2d7032;
-      --input-border: #555;
+      --card-bg: #2c3e50;
+      --card-text: #d1f7c4;
+      --input-bg: #2c2c2c;
+      --input-border: #666;
     }
+
     body {
       font-family: 'Nunito', sans-serif;
       max-width: 600px;
@@ -33,30 +33,30 @@
       color: var(--text);
       transition: background-color 0.3s, color 0.3s;
     }
+
     h2 {
       text-align: center;
       margin-bottom: 1.5em;
     }
+
     label {
       display: block;
       margin-top: 1em;
       font-weight: 600;
     }
-    input, select, button.vehicle-btn {
+
+    input, select {
       width: 100%;
       padding: 0.9em;
       margin-top: 0.4em;
       font-size: 1.1em;
       border-radius: 8px;
       border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text);
       box-sizing: border-box;
-      background-color: white;
     }
-    body.dark input,
-    body.dark select {
-      background-color: #2c2c2c;
-      color: white;
-    }
+
     .vehicle-container {
       display: flex;
       flex-wrap: wrap;
@@ -64,6 +64,7 @@
       gap: 0.6em;
       margin-bottom: 1.2em;
     }
+
     .vehicle-btn {
       flex: 1 1 45%;
       padding: 1em;
@@ -75,21 +76,18 @@
       opacity: 0.7;
       transition: all 0.2s ease-in-out;
     }
+
     .vehicle-btn.active {
       opacity: 1;
       transform: scale(1.03);
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
     .nnd { background-color: #e0f0ff; color: #005a9c; }
     .knd { background-color: #fff8dc; color: #9c6c00; }
     .rtw { background-color: #ffe4e1; color: #c0392b; }
     .manuell { background-color: #e2fbe9; color: #218838; }
-    body.dark .nnd,
-    body.dark .knd,
-    body.dark .rtw,
-    body.dark .manuell {
-      filter: brightness(0.8);
-    }
+
     #info-box {
       margin-top: 2em;
       padding: 1.2em;
@@ -100,6 +98,7 @@
       background-color: var(--card-bg);
       color: var(--card-text);
     }
+
     #output {
       margin-top: 2em;
       padding: 1.5em;
@@ -111,12 +110,15 @@
       color: var(--card-text);
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
-    .calculate-btn {
-      margin-top: 1.8em;
+
+    .calculate-btn,
+    .reset-btn,
+    .toggle-darkmode {
+      margin-top: 1.2em;
       font-size: 1.2em;
       padding: 1em;
       width: 100%;
-      background-color: var(--btn-bg);
+      background-color: #28a745;
       color: white;
       border: none;
       border-radius: 10px;
@@ -124,9 +126,13 @@
       font-weight: bold;
       transition: background-color 0.2s ease;
     }
-    .calculate-btn:hover {
-      background-color: var(--btn-hover);
+
+    .calculate-btn:hover,
+    .reset-btn:hover,
+    .toggle-darkmode:hover {
+      background-color: #218838;
     }
+
     .footer {
       margin-top: 4em;
       font-size: 0.9em;
@@ -134,27 +140,20 @@
       text-align: center;
       line-height: 1.6em;
     }
+
     .inline-select {
       display: flex;
       gap: 0.6em;
     }
+
     .inline-select > div {
       flex: 1;
-    }
-    .toggle-darkmode {
-      margin: 1em 0;
-      padding: 0.6em;
-      font-size: 1em;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 1px solid var(--input-border);
-      background-color: transparent;
-      color: var(--text);
     }
   </style>
 </head>
 <body>
   <button class="toggle-darkmode" onclick="document.body.classList.toggle('dark')">🌓 Dark Mode umschalten</button>
+  <h2>💊 Medikamenten-Rechner</h2>
 
   
   <style>
