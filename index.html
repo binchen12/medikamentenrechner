@@ -6,36 +6,18 @@
   <title>Medikamenten-Rechner</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f4f6f8;
-      --text: #333;
-      --card-bg: #d4edda;
-      --card-text: #155724;
-      --btn-bg: #28a745;
-      --btn-hover: #218838;
-      --input-border: #ccc;
-    }
-    body.dark {
-      --bg: #1e1e1e;
-      --text: #f4f4f4;
-      --card-bg: #2d4f2f;
-      --card-text: #cde7c7;
-      --btn-bg: #3e8e41;
-      --btn-hover: #2d7032;
-      --input-border: #555;
-    }
     body {
       font-family: 'Nunito', sans-serif;
       max-width: 600px;
       margin: 0 auto;
       padding: 1.5em;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background-color 0.3s, color 0.3s;
+      background-color: #f4f6f8;
+      color: #333;
     }
     h2 {
       text-align: center;
       margin-bottom: 1.5em;
+      color: #2c3e50;
     }
     label {
       display: block;
@@ -48,14 +30,8 @@
       margin-top: 0.4em;
       font-size: 1.1em;
       border-radius: 8px;
-      border: 1px solid var(--input-border);
+      border: 1px solid #ccc;
       box-sizing: border-box;
-      background-color: white;
-    }
-    body.dark input,
-    body.dark select {
-      background-color: #2c2c2c;
-      color: white;
     }
     .vehicle-container {
       display: flex;
@@ -98,21 +74,20 @@
     #output {
       margin-top: 2em;
       padding: 1.5em;
-      background-color: var(--card-bg);
+      background-color: #d4edda;
       border-radius: 12px;
       font-size: 1.4em;
       line-height: 2.4em;
       text-align: center;
-      color: var(--card-text);
+      color: #155724;
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
-    .calculate-btn,
-    .reset-btn {
-      margin-top: 1.2em;
+    .calculate-btn {
+      margin-top: 1.8em;
       font-size: 1.2em;
       padding: 1em;
       width: 100%;
-      background-color: var(--btn-bg);
+      background-color: #28a745;
       color: white;
       border: none;
       border-radius: 10px;
@@ -120,9 +95,8 @@
       font-weight: bold;
       transition: background-color 0.2s ease;
     }
-    .calculate-btn:hover,
-    .reset-btn:hover {
-      background-color: var(--btn-hover);
+    .calculate-btn:hover {
+      background-color: #218838;
     }
     .footer {
       margin-top: 4em;
@@ -138,20 +112,9 @@
     .inline-select > div {
       flex: 1;
     }
-    .toggle-darkmode {
-      margin: 1em 0;
-      padding: 0.6em;
-      font-size: 1em;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 1px solid var(--input-border);
-      background-color: transparent;
-      color: var(--text);
-    }
   </style>
 </head>
 <body>
-  <button class="toggle-darkmode" onclick="document.body.classList.toggle('dark')">🌓 Dark Mode umschalten</button>
   <h2>💊 Medikamenten-Rechner</h2>
 
   <div class="vehicle-container">
@@ -171,20 +134,26 @@
   <div id="info-box"></div>
 
   <label>Konzentration (mg/ml):</label>
-  <input type="number" id="konzentration" step="0.01">
+  <input type="number" id="konzentration" step="0.01" required>
 
   <div class="inline-select">
     <div>
-      <label id="dosierung-label">Dosierung <span id="einheit-label">(mg/kg)</span>:</label>
-      <input type="number" id="dosierung" step="0.001">
+      <label>Dosierung (mg/ml):</label>
+      <input type="number" id="dosierung" step="0.001" required>
+    </div>
+    <div id="einheit-auswahl" style="display: none;">
+      <label>Einheit:</label>
+      <select id="einheit">
+        <option value="mg">mg/kg</option>
+        <option value="ug">µg/kg</option>
+      </select>
     </div>
   </div>
 
   <label>Gewicht des Patienten (kg):</label>
-  <input type="number" id="gewicht" step="0.1">
+  <input type="number" id="gewicht" step="0.1" required>
 
   <button class="calculate-btn" onclick="berechne()">📈 Berechnen</button>
-  <button class="reset-btn" onclick="resetForm()">♻️ Zurücksetzen</button>
 
   <div id="output"></div>
 
@@ -193,6 +162,7 @@
     Alle Inhalte wurden sorgfältig recherchiert, dennoch wird keine Gewähr für die Richtigkeit übernommen.<br>
     Die Verantwortung für die Anwendung liegt stets beim Anwender.
   </div>
+
 <script>
 let fahrzeug = null;
 const daten = {
@@ -325,20 +295,6 @@ function berechne() {
     💊 <strong>Dosis:</strong> ${formatNum(dosis)} mg<br>
     💧 <strong>Volumen:</strong> ${formatNum(volumen)} ml
   `;
-}
-</script>
-<script>
-function resetForm() {
-  document.getElementById("konzentration").value = "";
-  document.getElementById("gewicht").value = "";
-  document.getElementById("dosierung").value = "";
-  document.getElementById("medikament").selectedIndex = 0;
-  document.getElementById("output").innerHTML = "";
-  document.getElementById("info-box").innerHTML = "";
-  document.getElementById("info-box").className = "";
-  fahrzeug = null;
-  document.querySelectorAll('.vehicle-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById("medikamentenwahl").style.display = 'block';
 }
 </script>
 </body>
