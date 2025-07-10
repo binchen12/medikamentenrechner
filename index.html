@@ -13,6 +13,8 @@
       --card-text: #155724;
       --input-bg: white;
       --input-border: #ccc;
+      --btn-bg: #28a745;
+      --btn-hover: #218838;
     }
 
     body.dark {
@@ -22,6 +24,8 @@
       --card-text: #d1f7c4;
       --input-bg: #2c2c2c;
       --input-border: #666;
+      --btn-bg: #3e8e41;
+      --btn-hover: #2d7032;
     }
 
     body {
@@ -115,10 +119,10 @@
     .reset-btn,
     .toggle-darkmode {
       margin-top: 1.2em;
-      font-size: 1.2em;
-      padding: 1em;
+      font-size: 1em;
+      padding: 0.6em;
       width: 100%;
-      background-color: #28a745;
+      background-color: var(--btn-bg);
       color: white;
       border: none;
       border-radius: 10px;
@@ -130,7 +134,7 @@
     .calculate-btn:hover,
     .reset-btn:hover,
     .toggle-darkmode:hover {
-      background-color: #218838;
+      background-color: var(--btn-hover);
     }
 
     .footer {
@@ -155,7 +159,7 @@
   <button class="toggle-darkmode" onclick="document.body.classList.toggle('dark')">🌓 Dark Mode umschalten</button>
   <h2>💊 Medikamenten-Rechner</h2>
 
-  
+
   <style>
     body {
       font-family: 'Nunito', sans-serif;
