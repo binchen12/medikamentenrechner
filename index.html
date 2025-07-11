@@ -101,15 +101,15 @@
       line-height: 2.0em;
       text-align: center;
       font-weight: 500;
+      background-color: #ede7f6;
+      color: #4a148c;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
 
-    .info-nnd { background-color: #e0f0ff; }
-    .info-knd { background-color: #fff8dc; }
-    .info-rtw { background-color: #ffe4e1; }
-
-    body.dark .info-nnd { background-color: #c0d8f2; }
-    body.dark .info-knd { background-color: #e7ddba; }
-    body.dark .info-rtw { background-color: #f2c8c3; }
+    body.dark #info-box {
+      background-color: #4a148c;
+      color: #ede7f6;
+    }
 
     #output {
       margin-top: 2em;
@@ -174,7 +174,7 @@
   <button class="dark-toggle" onclick="toggleDarkMode()">🌓</button>
   <h2>💊 Medikamenten-Rechner</h2>
 
-   <div class="vehicle-container">
+  <div class="vehicle-container">
     <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">👶 NND</button>
     <button id="btn-knd" class="vehicle-btn knd" onclick="setFahrzeug('knd')">🧒 KND</button>
     <button id="btn-rtw" class="vehicle-btn rtw" onclick="setFahrzeug('rtw')">🚑 RTW</button>
