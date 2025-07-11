@@ -178,20 +178,46 @@
 <body>
   <button class="dark-toggle" onclick="toggleDarkMode()">🌓</button>
   <h2>💊 Medikamenten-Rechner</h2>
-  <div class="vehicle-container">
-    <button id="btn-nnd" class="vehicle-btn nnd">👶 NND</button>
-    <button id="btn-knd" class="vehicle-btn knd">🧒 KND</button>
-    <button id="btn-rtw" class="vehicle-btn rtw">🚑 RTW</button>
-    <button id="btn-manuell" class="vehicle-btn manuell">🔓 Manuell</button>
+    <div class="vehicle-container">
+    <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">👶 NND</button>
+    <button id="btn-knd" class="vehicle-btn knd" onclick="setFahrzeug('knd')">🧒 KND</button>
+    <button id="btn-rtw" class="vehicle-btn rtw" onclick="setFahrzeug('rtw')">🚑 RTW</button>
+    <button id="btn-manuell" class="vehicle-btn manuell" onclick="setFahrzeug('manuell')">🔓 Manuell</button>
   </div>
-  <div id="info-box">
-    💉 <strong>Ampulle:</strong> Beispielampulle<br>
-    🧪 <strong>Verdünnung:</strong> Beispielzubereitung
+
+  <div id="medikamentenwahl">
+    <label>Medikament:</label>
+    <select id="medikament" onchange="vordefinieren()">
+      <option value="">-- Bitte Fahrzeugtyp wählen --</option>
+    </select>
   </div>
-  <div id="output">
-    💊 <strong>Dosis:</strong> 0,5 mg<br>
-    💧 <strong>Volumen:</strong> 0,2 ml
+
+  <div id="info-box"></div>
+
+  <label>Konzentration (mg/ml):</label>
+  <input type="number" id="konzentration" step="0.01" required>
+
+  <div class="inline-select">
+    <div>
+      <label>Dosierung (mg/kg):</label>
+      <input type="number" id="dosierung" step="0.001" required>
+    </div>
+    <div id="einheit-auswahl" style="display: none;">
+      <label>Einheit:</label>
+      <select id="einheit">
+        <option value="mg">mg/kg</option>
+        <option value="ug">µg/kg</option>
+      </select>
+    </div>
   </div>
+
+  <label>Gewicht des Patienten (kg):</label>
+  <input type="number" id="gewicht" step="0.1" required>
+
+  <button class="calculate-btn" onclick="berechne()">📈 Berechnen</button>
+
+  <div id="output"></div>
+
   <div class="footer">
     Version 1.0 – Stand: Juli 2025<br>
     Alle Inhalte wurden sorgfältig recherchiert, dennoch wird keine Gewähr für die Richtigkeit übernommen.<br>
