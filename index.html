@@ -31,6 +31,14 @@
       color: var(--text);
       position: relative;
     }
+    @media screen and (max-width: 640px) {
+      body {
+        padding: 1em;
+      }
+      .vehicle-container {
+        flex-direction: column;
+      }
+    }
     h2 {
       text-align: center;
       margin-bottom: 1.5em;
@@ -133,21 +141,23 @@
       color: var(--card-text);
       box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
-    .calculate-btn {
-      margin-top: 1.8em;
-      font-size: 1.2em;
-      padding: 1em;
+    .calculate-btn, .reset-btn {
+      margin-top: 1.5em;
+      font-size: 1.1em;
+      padding: 0.9em;
       width: 100%;
-      background-color: #28a745;
-      color: white;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color 0.2s ease;
     }
-    .calculate-btn:hover {
-      background-color: #218838;
+    .calculate-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .reset-btn {
+      background-color: #dc3545;
+      color: white;
     }
     .footer {
       margin-top: 4em;
@@ -178,65 +188,63 @@
 <body>
   <button class="dark-toggle" onclick="toggleDarkMode()">🌓</button>
   <h2>💊 Medikamenten-Rechner</h2>
-    <div class="vehicle-container">
+  <div class="vehicle-container">
     <button id="btn-nnd" class="vehicle-btn nnd" onclick="setFahrzeug('nnd')">👶 NND</button>
     <button id="btn-knd" class="vehicle-btn knd" onclick="setFahrzeug('knd')">🧒 KND</button>
     <button id="btn-rtw" class="vehicle-btn rtw" onclick="setFahrzeug('rtw')">🚑 RTW</button>
     <button id="btn-manuell" class="vehicle-btn manuell" onclick="setFahrzeug('manuell')">🔓 Manuell</button>
   </div>
-
   <div id="medikamentenwahl">
-    <label>Medikament:</label>
+    <label for="medikament">Medikament:</label>
+    <input type="text" id="medsuche" placeholder="🔍 Suche..." onkeyup="filterMedikamente()">
     <select id="medikament" onchange="vordefinieren()">
       <option value="">-- Bitte Fahrzeugtyp wählen --</option>
     </select>
   </div>
-
   <div id="info-box"></div>
-
   <label>Konzentration (mg/ml):</label>
   <input type="number" id="konzentration" step="0.01" required>
-
-  <div class="inline-select">
-    <div>
-      <label>Dosierung (mg/kg):</label>
-      <input type="number" id="dosierung" step="0.001" required>
-    </div>
-    <div id="einheit-auswahl" style="display: none;">
-      <label>Einheit:</label>
-      <select id="einheit">
-        <option value="mg">mg/kg</option>
-        <option value="ug">µg/kg</option>
-      </select>
-    </div>
-  </div>
-
+  <label>Dosierung (mg/kg):</label>
+  <input type="number" id="dosierung" step="0.001" required>
   <label>Gewicht des Patienten (kg):</label>
   <input type="number" id="gewicht" step="0.1" required>
-
   <button class="calculate-btn" onclick="berechne()">📈 Berechnen</button>
-
+  <button class="reset-btn" onclick="zuruecksetzen()">🔁 Zurücksetzen</button>
   <div id="output"></div>
-
   <div class="footer">
     Version 1.0 – Stand: Juli 2025<br>
     Alle Inhalte wurden sorgfältig recherchiert, dennoch wird keine Gewähr für die Richtigkeit übernommen.<br>
     Die Verantwortung für die Anwendung liegt stets beim Anwender.
   </div>
   <script>
-    // Dark Mode mit Speicherfunktion
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
       localStorage.setItem("darkMode", document.body.classList.contains("dark") ? "on" : "off");
     }
-
-    // Dark Mode beim Laden prüfen
     window.addEventListener("DOMContentLoaded", () => {
       if (localStorage.getItem("darkMode") === "on") {
         document.body.classList.add("dark");
       }
     });
+    function zuruecksetzen() {
+      document.getElementById("konzentration").value = "";
+      document.getElementById("dosierung").value = "";
+      document.getElementById("gewicht").value = "";
+      document.getElementById("output").innerHTML = "";
+      document.getElementById("medikament").selectedIndex = 0;
+      document.getElementById("medsuche").value = "";
+      document.getElementById("info-box").innerHTML = "";
+    }
+    function filterMedikamente() {
+      let input = document.getElementById('medsuche').value.toLowerCase();
+      let select = document.getElementById('medikament');
+      for (let option of select.options) {
+        let txt = option.text.toLowerCase();
+        option.style.display = txt.includes(input) || option.value === "" ? 'block' : 'none';
+      }
+    }
   </script>
+
   <script>
     let fahrzeug = null;
 const daten = {
